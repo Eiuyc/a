@@ -13,15 +13,15 @@
 <meta property="og:site_name" content="Eiuyc">
 <meta property="og:description" content=":)">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://eiuyc.tk/p/202010090/upbge_source_code/vs&#32;installer.png">
-<meta property="og:image" content="https://eiuyc.tk/p/202010090/upbge_source_code/vs&#32;installer2.png">
-<meta property="og:image" content="https://eiuyc.tk/p/202010090/upbge_source_code/detected.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202010090/vs_installer.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202010090/vs_installer2.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202010090/detected.png">
 <meta property="article:published_time" content="2020-10-09T04:18:17.000Z">
-<meta property="article:modified_time" content="2020-10-09T12:43:29.816Z">
+<meta property="article:modified_time" content="2020-10-09T13:37:27.306Z">
 <meta property="article:author" content="Eiuyc">
 <meta property="article:tag" content="wget">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://eiuyc.tk/p/202010090/upbge_source_code/vs&#32;installer.png">
+<meta name="twitter:image" content="https://eiuyc.tk/p/202010090/vs_installer.png">
   
     <link rel="alternate" href="/atom.xml" title="Eiuyc" type="application/atom+xml">
   
@@ -111,10 +111,12 @@
 <p>之前看到0.3版，大概是基于Blender2.8的</p>
 <p>于是下源码 打算手动编一个</p>
 <p>1.Cmake<br>一开始就报错 没有Cmake 于是配个环境变量</p>
-<p>2.vs2015<br>大概是windows自带的工具包过时了，blender不支持。于是用vs installer装一个。<br><img src="upbge_source_code/vs&#32;installer.png" alt=""><br><img src="upbge_source_code/vs&#32;installer2.png" alt=""><br>装好后再make 出现这个就可以了<br><img src="upbge_source_code/detected.png" alt=""></p>
+<p>2.vs2015<br>大概是windows自带的工具包过时了，blender不支持。于是用vs installer装一个。<br><img src="vs_installer.png" alt=""><br><img src="vs_installer2.png" alt=""><br>装好后再make 出现这个就可以了<br><img src="detected.png" alt=""></p>
 <p>3.wget下载文件夹及其子文件<br>make之后开始下载这个<br><a href="https://svn.blender.org/svnroot/bf-blender/trunk/lib/win64_vc15/">https://svn.blender.org/svnroot/bf-blender/trunk/lib/win64_vc15/</a><br>svn 连接不太稳定 而且没有反馈 很难受<br>于是用wget：<br>wget -c -r -np -nH –cut-dirs=4 -R index.html <a href="https://svn.blender.org/svnroot/bf-blender/trunk/lib/win64_vc15/">https://svn.blender.org/svnroot/bf-blender/trunk/lib/win64_vc15/</a>  </p>
 <p>参考自：<br><a href="https://stackoverflow.com/questions/23446635/how-to-download-http-directory-with-all-files-and-sub-directories-as-they-appear" target="_blank">stackoverflow</a></p>
-<h2 id="等它下好"><a href="#等它下好" class="headerlink" title="等它下好"></a>等它下好</h2>
+<p>等它下好</p>
+<hr>
+
       
     </div>
     <footer class="article-footer">
