@@ -4,25 +4,24 @@
   <meta charset="utf-8">
   
   
-  <title>用blender做一只小蜜蜂 | Eiuyc</title>
+  <title>UPBGE make记录 | Eiuyc</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content=":)">
 <meta property="og:type" content="article">
-<meta property="og:title" content="用blender做一只小蜜蜂">
-<meta property="og:url" content="https://eiuyc.tk/p/202009200/index.html">
+<meta property="og:title" content="UPBGE make记录">
+<meta property="og:url" content="https://eiuyc.tk/p/202010090/index.html">
 <meta property="og:site_name" content="Eiuyc">
 <meta property="og:description" content=":)">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://eiuyc.tk/p/202009200/wings.png">
-<meta property="og:image" content="https://eiuyc.tk/p/202009200/bee01.png">
-<meta property="og:image" content="https://eiuyc.tk/p/202009200/bee02.png">
-<meta property="og:image" content="https://eiuyc.tk/p/202009200/bee03.png">
-<meta property="article:published_time" content="2020-09-20T00:52:02.000Z">
-<meta property="article:modified_time" content="2020-09-28T02:02:51.214Z">
+<meta property="og:image" content="https://eiuyc.tk/p/202010090/upbge_source_code/vs&#32;installer.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202010090/upbge_source_code/vs&#32;installer2.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202010090/upbge_source_code/detected.png">
+<meta property="article:published_time" content="2020-10-09T04:18:17.000Z">
+<meta property="article:modified_time" content="2020-10-09T12:43:29.816Z">
 <meta property="article:author" content="Eiuyc">
-<meta property="article:tag" content="blender">
+<meta property="article:tag" content="wget">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://eiuyc.tk/p/202009200/wings.png">
+<meta name="twitter:image" content="https://eiuyc.tk/p/202010090/upbge_source_code/vs&#32;installer.png">
   
     <link rel="alternate" href="/atom.xml" title="Eiuyc" type="application/atom+xml">
   
@@ -77,14 +76,14 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-blender-modeling" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-upbge_source_code" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/p/202009200/" class="article-date">
-  <time class="dt-published" datetime="2020-09-20T00:52:02.000Z" itemprop="datePublished">2020-09-20</time>
+    <a href="/p/202010090/" class="article-date">
+  <time class="dt-published" datetime="2020-10-09T04:18:17.000Z" itemprop="datePublished">2020-10-09</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/Modeling/">Modeling</a>
+    <a class="article-category-link" href="/categories/Linux/">Linux</a>
   </div>
 
   </div>
@@ -95,7 +94,7 @@
 		
   
     <h1 class="p-name article-title" itemprop="headline name">
-      用blender做一只小蜜蜂
+      UPBGE make记录
     </h1>
   
 
@@ -108,25 +107,22 @@
         <p>:)</p>
 <a id="more"></a>
 
-<p>之前在blbl上看见了一个关于<a href="https://www.bilibili.com/video/BV1nE411q7FY" target="_blank">蜜蜂</a>的动画 这个模型很有趣 也比较简单 打算用blender试一试</p>
-<p>一个圆柱体 环切6段 调整形状</p>
-<p>六只脚是圆柱体 放在身体第二段的下方 调整形状 开一个镜像 一个阵列</p>
-<p>眼镜和嘴巴也是圆柱会好些<br>但是眼睛一开始用圆环做了</p>
-<p>翅膀是圆环拉出来的</p>
-<p>上色</p>
-<p>翅膀的节点记录一下<br><img src="wings.png" alt=""></p>
-<p>最后的结果<br><img src="bee01.png" alt=""></p>
-<p><img src="bee02.png" alt=""></p>
-<p><img src="bee03.png" alt=""></p>
-
+<p>Blender更新2.8的时候，BGE被移除了<br>前几天突然看到还有个UPBGE，是2.79的时候fork出来的。赶紧下过来看看，是0.2.5release版，基于2.79的Blender，界面一言难尽</p>
+<p>之前看到0.3版，大概是基于Blender2.8的</p>
+<p>于是下源码 打算手动编一个</p>
+<p>1.Cmake<br>一开始就报错 没有Cmake 于是配个环境变量</p>
+<p>2.vs2015<br>大概是windows自带的工具包过时了，blender不支持。于是用vs installer装一个。<br><img src="upbge_source_code/vs&#32;installer.png" alt=""><br><img src="upbge_source_code/vs&#32;installer2.png" alt=""><br>装好后再make 出现这个就可以了<br><img src="upbge_source_code/detected.png" alt=""></p>
+<p>3.wget下载文件夹及其子文件<br>make之后开始下载这个<br><a href="https://svn.blender.org/svnroot/bf-blender/trunk/lib/win64_vc15/">https://svn.blender.org/svnroot/bf-blender/trunk/lib/win64_vc15/</a><br>svn 连接不太稳定 而且没有反馈 很难受<br>于是用wget：<br>wget -c -r -np -nH –cut-dirs=4 -R index.html <a href="https://svn.blender.org/svnroot/bf-blender/trunk/lib/win64_vc15/">https://svn.blender.org/svnroot/bf-blender/trunk/lib/win64_vc15/</a>  </p>
+<p>参考自：<br><a href="https://stackoverflow.com/questions/23446635/how-to-download-http-directory-with-all-files-and-sub-directories-as-they-appear" target="_blank">stackoverflow</a></p>
+<h2 id="等它下好"><a href="#等它下好" class="headerlink" title="等它下好"></a>等它下好</h2>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://eiuyc.tk/p/202009200/" data-id="ckfafbvlk0000b4fkbfxt3q6y" data-title="用blender做一只小蜜蜂" class="article-share-link">分享</a>
+      <a data-url="https://eiuyc.tk/p/202010090/" data-id="ckg28snoj00009kfk0g798y5e" data-title="UPBGE make记录" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/blender/" rel="tag">blender</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wget/" rel="tag">wget</a></li></ul>
 
     </footer>
   </div>
@@ -134,19 +130,10 @@
     
 <nav id="article-nav">
   
-    <a href="/p/202009280/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">前一篇</strong>
-      <div class="article-nav-title">
-        
-          blender小场景 工作记录
-        
-      </div>
-    </a>
   
-  
-    <a href="/p/202008270/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/p/202010070/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">后一篇</strong>
-      <div class="article-nav-title">为github page设置Custom domain</div>
+      <div class="article-nav-title">Godot Lod 测试</div>
     </a>
   
 </nav>
