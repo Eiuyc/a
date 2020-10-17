@@ -4,15 +4,23 @@
   <meta charset="utf-8">
   
   
-  <title>目录: Android | Eiuyc</title>
+  <title>使用adb导出apk | Eiuyc</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Eiuyc">
-<meta property="og:url" content="https://eiuyc.tk/categories/Android/index.html">
+  <meta name="description" content=":)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用adb导出apk">
+<meta property="og:url" content="https://eiuyc.tk/p/202010170/index.html">
 <meta property="og:site_name" content="Eiuyc">
+<meta property="og:description" content=":)">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://eiuyc.tk/p/202010170/chrome.png">
+<meta property="article:published_time" content="2020-10-17T05:58:45.000Z">
+<meta property="article:modified_time" content="2020-10-17T06:27:00.537Z">
 <meta property="article:author" content="Eiuyc">
+<meta property="article:tag" content="trick">
+<meta property="article:tag" content="adb">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://eiuyc.tk/p/202010170/chrome.png">
   
     <link rel="alternate" href="/atom.xml" title="Eiuyc" type="application/atom+xml">
   
@@ -67,58 +75,87 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/p/202010170/" class="archive-article-date">
-  <time class="dt-published" datetime="2020-10-17T05:58:45.000Z" itemprop="datePublished">10月 17</time>
+        <section id="main"><article id="post-adb-pull-packages" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/p/202010170/" class="article-date">
+  <time class="dt-published" datetime="2020-10-17T05:58:45.000Z" itemprop="datePublished">2020-10-17</time>
 </a>
-      
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+		
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/p/202010170/">使用adb导出apk</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      使用adb导出apk
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+		<br>
+		<div style="height: 0.5px; background-color: rgb(230, 230, 230)"><div>
+	  </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/p/202010100/" class="archive-article-date">
-  <time class="dt-published" datetime="2020-10-10T08:02:10.000Z" itemprop="datePublished">10月 10</time>
-</a>
+    <div class="e-content article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/p/202010100/">使用adb工具查看Android的abi</a>
-    </h1>
-  
+        <p>:)</p>
+<a id="more"></a>
 
-    </header>
+<p><em>假设设备已开启debug模式，并且电脑通过adb工具连接了设备</em></p>
+<p>以chrome浏览器为例</p>
+<h2 id="一、找包名"><a href="#一、找包名" class="headerlink" title="一、找包名"></a>一、找包名</h2><h3 id="方法1-知道或者大概知道包名"><a href="#方法1-知道或者大概知道包名" class="headerlink" title="方法1 知道或者大概知道包名"></a>方法1 知道或者大概知道包名</h3><p>直接搜：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell pm list package | adb shell grep chrome</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">package:com.android.chrome</span><br></pre></td></tr></table></figure>
+<p>这就是完整的包名了</p>
+<h3 id="方法2-不清楚包名"><a href="#方法2-不清楚包名" class="headerlink" title="方法2 不清楚包名"></a>方法2 不清楚包名</h3><p>打开chrome，使其作为手机当前活动页</p>
+<p>查看当前界面：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell dumpsys window | adb shell grep mCurrentFocus</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mCurrentFocus&#x3D;Window&#123;3577661 u0 com.android.chrome&#x2F;org.chromium.chrome.browser.ChromeTabbedActivity&#125;</span><br></pre></td></tr></table></figure>
+<p>斜杠前面的就是包名</p>
+<h2 id="二、找包的路径"><a href="#二、找包的路径" class="headerlink" title="二、找包的路径"></a>二、找包的路径</h2><p>命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell pm path com.android.chrome</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">package:&#x2F;data&#x2F;app&#x2F;com.android.chrome-ov3VU0B6EXFIpVMfJOJo2w&#x3D;&#x3D;&#x2F;base.apk</span><br></pre></td></tr></table></figure>
+<h2 id="三、导出到电脑上（比如D盘chrome文件夹下）"><a href="#三、导出到电脑上（比如D盘chrome文件夹下）" class="headerlink" title="三、导出到电脑上（比如D盘chrome文件夹下）"></a>三、导出到电脑上（比如D盘chrome文件夹下）</h2><p>命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb pull &#x2F;data&#x2F;app&#x2F;com.android.chrome-ov3VU0B6EXFIpVMfJOJo2w&#x3D;&#x3D;&#x2F;base.apk d:&#x2F;chrome&#x2F;</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;data&#x2F;app&#x2F;com.android.chrome-ov3VU0B6EXFIpVMfJOJo2w&#x3D;&#x3D;&#x2F;base.apk: 1 file pulled. 34.7 MB&#x2F;s (48080717 bytes in 1.322s)</span><br></pre></td></tr></table></figure>
+<p>可以在目标文件夹下看到apk<br><img src="chrome.png" alt=""></p>
+<hr>
+<p>参考自：<br><a href="https://blog.csdn.net/ezconn/article/details/86506989" target="_blank">免root ADB命令卸载系统预装应用</a><br><a href="https://blog.csdn.net/ezconn/article/details/86506989" target="_blank">adb 导出手机中已安装的apk</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://eiuyc.tk/p/202010170/" data-id="ckgdanzym0000hkfk2iv07vg3" data-title="使用adb导出apk" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/adb/" rel="tag">adb</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/trick/" rel="tag">trick</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/p/202010130/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">使用gpg命令验证文件签名</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
 
 
 </section>
