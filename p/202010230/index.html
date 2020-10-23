@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>在godot中使用cpp | Eiuyc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content=":) c++的效率高过gdscript 通过加载dll的方式，godot可以调用cpp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在godot中使用cpp">
+<meta property="og:url" content="https://eiuyc.tk/p/202010230/index.html">
+<meta property="og:site_name" content="Eiuyc">
+<meta property="og:description" content=":) c++的效率高过gdscript 通过加载dll的方式，godot可以调用cpp">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://eiuyc.tk/p/202010230/objects.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202010230/collision.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202010230/icon.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202010230/sprite.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202010230/scene.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202010230/gdnativelibrary.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202010230/gdnativelibrary2.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202010230/gdnativelibrary3.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202010230/gdnativelibrary4.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202010230/gdnativelibrary5.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202010230/script.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202010230/gdnative.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202010230/gdnative_inspector.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202010230/load.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202010230/load2.png">
+<meta property="article:published_time" content="2020-10-23T02:08:00.000Z">
+<meta property="article:modified_time" content="2020-10-23T05:21:26.676Z">
+<meta property="article:author" content="Eiuyc">
+<meta property="article:tag" content="godot">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://eiuyc.tk/p/202010230/objects.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Eiuyc" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/e.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://eiuyc.tk"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-godot-cpp" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/p/202010230/" class="article-date">
+  <time class="dt-published" datetime="2020-10-23T02:08:00.000Z" itemprop="datePublished">2020-10-23</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/GameDev/">GameDev</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+		
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      在godot中使用cpp
+    </h1>
+  
+
+		<br>
+		<div style="height: 0.5px; background-color: rgb(230, 230, 230)"><div>
+	  </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>:)</p>
+<p>c++的效率高过gdscript</p>
+<p>通过加载dll的方式，godot可以调用cpp</p>
+<a id="more"></a>
+
+<h2 id="一、文件结构"><a href="#一、文件结构" class="headerlink" title="一、文件结构"></a>一、文件结构</h2><p>从一个空文件夹开始<br>取名为<code>CPP</code>，作为根目录</p>
+<p>在CPP下新建一个空的Godot项目，取名为<code>demo</code></p>
+<p>在终端键入命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone --recursive https:&#x2F;&#x2F;github.com&#x2F;godotengine&#x2F;godot-cpp.git</span><br></pre></td></tr></table></figure>
+<p><code>--recursive</code>选项使得子模块<code>godot_headers</code>也会一并下载</p>
+<p>当前文件（大致）:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CPP</span><br><span class="line">├─demo</span><br><span class="line">│  └─.import</span><br><span class="line">└─godot-cpp</span><br><span class="line">    ├─godot_headers</span><br><span class="line">    ├─include</span><br><span class="line">    │  ├─core</span><br><span class="line">    │  └─gen</span><br><span class="line">    └─SConstruct</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="二、使用scons编译lib"><a href="#二、使用scons编译lib" class="headerlink" title="二、使用scons编译lib"></a>二、使用<code>scons</code>编译lib</h2><p>假设机器已经有pip工具</p>
+<h3 id="下载scons："><a href="#下载scons：" class="headerlink" title="下载scons："></a>下载scons：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install scons</span><br></pre></td></tr></table></figure>
+
+<h3 id="编译："><a href="#编译：" class="headerlink" title="编译："></a>编译：</h3><p>要用到微软的cl编译器<br>装了vs 2019应该就有<br>如果不行可以手动配环境变量PATH</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd godot-cpp</span><br><span class="line">scons generate_bindings&#x3D;yes</span><br></pre></td></tr></table></figure>
+<p>咕噜咕噜冒泡<br>大概10分钟</p>
+<p>在godot-cpp下会多出一个<code>bin</code>文件夹，里面的<code>libgodot-cpp.windows.debug.64.lib</code>就是一会儿编译dll时要用到的lib</p>
+<p>可以使用<code>target</code>选项获得<code>libgodot-cpp.windows.debug.64.lib</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scons generate_bindings&#x3D;yes target&#x3D;release</span><br></pre></td></tr></table></figure>
+
+<h2 id="三、编写自定义cpp模块"><a href="#三、编写自定义cpp模块" class="headerlink" title="三、编写自定义cpp模块"></a>三、编写自定义cpp模块</h2><p>假设要用cpp做一个控制物体上下左右移动的模块</p>
+<p>在CPP下新建<code>src</code>，并添加一些文件</p>
+<p>src/library.hpp</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Godot.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"Player.h"</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> godot;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span> <span class="function"><span class="keyword">void</span> GDN_EXPORT <span class="title">godot_gdnative_init</span><span class="params">(godot_gdnative_init_options * o)</span></span>&#123;</span><br><span class="line">    Godot::gdnative_init(o);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span> <span class="function"><span class="keyword">void</span> GDN_EXPORT <span class="title">godot_gdnative_terminate</span><span class="params">(godot_gdnative_terminate_options * o)</span> </span>&#123;</span><br><span class="line">    Godot::gdnative_terminate(o);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span> <span class="function"><span class="keyword">void</span> GDN_EXPORT <span class="title">godot_nativescript_init</span><span class="params">(<span class="keyword">void</span>* handle)</span> </span>&#123;</span><br><span class="line">    Godot::nativescript_init(handle);</span><br><span class="line">    register_class&lt;Player&gt;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>library.hpp</code>中所写的大多是模板，值得注意的是最后的<code>register_class&lt;Player&gt;();</code><br>这个语句向godot引擎注册了Player类</p>
+<p>src/Player.h</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Godot.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;KinematicBody2D.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Input.hpp&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> godot &#123;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Player</span> :</span> <span class="keyword">public</span> KinematicBody2D</span><br><span class="line">    &#123;</span><br><span class="line">        GODOT_CLASS(Player, KinematicBody2D);</span><br><span class="line">        Vector2 motion;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">int</span> speed = <span class="number">300</span>;</span><br><span class="line">        <span class="keyword">static</span> <span class="keyword">void</span> _register_methods();</span><br><span class="line">        <span class="keyword">void</span> _init();</span><br><span class="line">        <span class="keyword">void</span> _process(<span class="keyword">float</span> delta);</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">UpdateMotionFromInput</span><span class="params">()</span></span>;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>Player.h</code>中的<code>GODOT_CLASS(Player, KinematicBody2D);</code>向Godot引擎声明自定义类Player继承自<code>KinematicBody2D</code>（大概）</p>
+<p>src/Player.cpp</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"Player.h"</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> godot;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> Player::_register_methods()&#123;</span><br><span class="line">    register_method(<span class="string">"_process"</span>, &amp;Player::_process);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> Player::_init()&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> Player::_process(<span class="keyword">float</span> delta)&#123;</span><br><span class="line">    UpdateMotionFromInput();</span><br><span class="line">    move_and_slide(motion);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Player::UpdateMotionFromInput</span><span class="params">()</span></span>&#123;</span><br><span class="line">    motion = Vector2(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    Input *i = Input::get_singleton();</span><br><span class="line">    <span class="keyword">if</span>(i-&gt;is_action_pressed(<span class="string">"ui_up"</span>))</span><br><span class="line">        motion.y -= speed;</span><br><span class="line">    <span class="keyword">if</span>(i-&gt;is_action_pressed(<span class="string">"ui_down"</span>))</span><br><span class="line">        motion.y += speed;</span><br><span class="line">    <span class="keyword">if</span>(i-&gt;is_action_pressed(<span class="string">"ui_left"</span>))</span><br><span class="line">        motion.x -= speed;</span><br><span class="line">    <span class="keyword">if</span>(i-&gt;is_action_pressed(<span class="string">"ui_right"</span>))</span><br><span class="line">        motion.x += speed;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>注意到<code>_register_methods</code>中并没有注册<code>UpdateMotionFromInput</code>方法，这使得该公共方法在gdscript中不能直接调用。然而本示例并不需要在gdscript中调用该方法，只要让godot调用被注册的<code>_process</code>就可以了</em></p>
+<p>最后在CPP下新建Sconstruct</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!python</span></span><br><span class="line">import os</span><br><span class="line"></span><br><span class="line"><span class="comment"># define our target</span></span><br><span class="line">target_path = <span class="string">'demo/bin/'</span></span><br><span class="line">target_name = <span class="string">'test'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Local dependency paths, adapt them to your setup</span></span><br><span class="line">godot_headers_path = <span class="string">"godot-cpp/godot_headers/"</span></span><br><span class="line">cpp_bindings_path = <span class="string">"godot-cpp/"</span></span><br><span class="line">cpp_library = <span class="string">"libgodot-cpp"</span></span><br><span class="line"></span><br><span class="line">target = ARGUMENTS.get(<span class="string">"target"</span>, <span class="string">"debug"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># platform= makes it in line with Godots scons file, keeping p for backwards compatibility</span></span><br><span class="line">platform = ARGUMENTS.get(<span class="string">"p"</span>, <span class="string">"windows"</span>)</span><br><span class="line">platform = ARGUMENTS.get(<span class="string">"platform"</span>, platform)</span><br><span class="line"></span><br><span class="line"><span class="comment"># This makes sure to keep the session environment variables on windows, </span></span><br><span class="line"><span class="comment"># that way you can run scons in a vs 2017 prompt and it will find all the required tools</span></span><br><span class="line">env = Environment()</span><br><span class="line"><span class="keyword">if</span> platform == <span class="string">"windows"</span>:</span><br><span class="line">    env = Environment(ENV = os.environ)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ARGUMENTS.get(<span class="string">"use_llvm"</span>, <span class="string">"no"</span>) == <span class="string">"yes"</span>:</span><br><span class="line">    env[<span class="string">"CXX"</span>] = <span class="string">"clang++"</span></span><br><span class="line"></span><br><span class="line">def add_sources(sources, directory):</span><br><span class="line">    <span class="keyword">for</span> file <span class="keyword">in</span> os.listdir(directory):</span><br><span class="line">        <span class="keyword">if</span> file.endswith(<span class="string">'.cpp'</span>):</span><br><span class="line">            sources.append(directory + <span class="string">'/'</span> + file)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> platform == <span class="string">"osx"</span>:</span><br><span class="line">    env.Append(CCFLAGS = [<span class="string">'-g'</span>,<span class="string">'-O3'</span>, <span class="string">'-arch'</span>, <span class="string">'x86_64'</span>])</span><br><span class="line">    env.Append(LINKFLAGS = [<span class="string">'-arch'</span>, <span class="string">'x86_64'</span>])</span><br><span class="line">    target_path += <span class="string">'osx/'</span></span><br><span class="line">    cpp_library += <span class="string">'.osx.64'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> platform == <span class="string">"linux"</span>:</span><br><span class="line">    env.Append(CCFLAGS = [<span class="string">'-fPIC'</span>, <span class="string">'-g'</span>,<span class="string">'-O3'</span>, <span class="string">'-std=c++14'</span>])</span><br><span class="line">    target_path += <span class="string">'x11/'</span></span><br><span class="line">    cpp_library += <span class="string">'.linux.64'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> platform == <span class="string">"windows"</span>:</span><br><span class="line">    env.Append(CCFLAGS = [<span class="string">'-DWIN32'</span>, <span class="string">'-D_WIN32'</span>, <span class="string">'-D_WINDOWS'</span>, <span class="string">'-W3'</span>, <span class="string">'-GR'</span>, <span class="string">'-D_CRT_SECURE_NO_WARNINGS'</span>])</span><br><span class="line">    <span class="keyword">if</span> target == <span class="string">"debug"</span>:</span><br><span class="line">        env.Append(CCFLAGS = [<span class="string">'-EHsc'</span>, <span class="string">'-D_DEBUG'</span>, <span class="string">'-MDd'</span>])</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        env.Append(CCFLAGS = [<span class="string">'-O2'</span>, <span class="string">'-EHsc'</span>, <span class="string">'-DNDEBUG'</span>, <span class="string">'-MD'</span>])</span><br><span class="line">    target_path += <span class="string">'win64/'</span></span><br><span class="line">    cpp_library += <span class="string">'.windows.64'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># , 'include', 'include/core'</span></span><br><span class="line">env.Append(CPPPATH=[<span class="string">'.'</span>, <span class="string">'src/'</span>, godot_headers_path, cpp_bindings_path + <span class="string">'include/'</span>, cpp_bindings_path + <span class="string">'include/core/'</span>, cpp_bindings_path + <span class="string">'include/gen/'</span>])</span><br><span class="line">env.Append(LIBPATH=[cpp_bindings_path + <span class="string">'bin/'</span>])</span><br><span class="line">env.Append(LIBS=[cpp_library])</span><br><span class="line"></span><br><span class="line">sources = []</span><br><span class="line">add_sources(sources, <span class="string">"src"</span>)</span><br><span class="line"></span><br><span class="line">library = env.SharedLibrary(target=target_path + target_name, <span class="built_in">source</span>=sources)</span><br><span class="line">Default(library)</span><br></pre></td></tr></table></figure>
+<p>注意<code>Sconstruct</code>中5-11行的各个字段，如果之前有不一样的，这里需要改</p>
+<p>当前文件（大概）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">CPP</span><br><span class="line">├─demo</span><br><span class="line">│  └─.import</span><br><span class="line">├─godot-cpp</span><br><span class="line">│  ├─bin</span><br><span class="line">│  │  └─libgodot-cpp.windows.debug.64.lib</span><br><span class="line">│  ├─godot_headers</span><br><span class="line">│  └─include</span><br><span class="line">│     ├─core</span><br><span class="line">│     └─gen</span><br><span class="line">├─src</span><br><span class="line">│  ├─library.cpp</span><br><span class="line">│  ├─Player.cpp</span><br><span class="line">│  └─Player.h</span><br><span class="line">└─Sconstruct</span><br></pre></td></tr></table></figure>
+
+<h2 id="四、编译dll"><a href="#四、编译dll" class="headerlink" title="四、编译dll"></a>四、编译dll</h2><p>在CPP目录下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scons</span><br></pre></td></tr></table></figure>
+<p>报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LINK : fatal error LNK1181: cannot open input file &#39;libgodot-cpp.windows.64.lib&#39;</span><br><span class="line">scons: *** [demo\bin\win64\test.dll] Error 1181</span><br><span class="line">scons: building terminated because of errors.</span><br></pre></td></tr></table></figure>
+
+<p>将<code>libgodot-cpp.windows.debug.64.lib</code>重命名为<code>libgodot-cpp.windows.64.lib</code><br>重试：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">scons: Reading SConscript files ...</span><br><span class="line">scons: done reading SConscript files.</span><br><span class="line">scons: Building targets ...</span><br><span class="line">link &#x2F;nologo &#x2F;dll &#x2F;out:demo\bin\win64\test.dll &#x2F;implib:demo\bin\win64\test.lib &#x2F;LIBPATH:godot-cpp\bin libgodot-cpp.windows.64.lib src\library.obj src\Player.obj</span><br><span class="line">   Creating library demo\bin\win64\test.lib and object demo\bin\win64\test.exp</span><br><span class="line">scons: done building targets.</span><br></pre></td></tr></table></figure>
+<p>OK，项目demo的目录下多出了bin文件夹</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">demo</span><br><span class="line">└─bin</span><br><span class="line">  └─win64</span><br><span class="line">      ├─test.dll</span><br><span class="line">      ├─test.exp</span><br><span class="line">      └─test.lib</span><br></pre></td></tr></table></figure>
+<p>只会用到test.dll</p>
+<h2 id="五、设置Godot"><a href="#五、设置Godot" class="headerlink" title="五、设置Godot"></a>五、设置Godot</h2><h3 id="设置场景"><a href="#设置场景" class="headerlink" title="设置场景"></a>设置场景</h3><p>新建2d节点，添加物体<br><img src="objects.png" alt=""></p>
+<p>为<code>CollisionShape2D</code>选择一个圆形的碰撞箱<br><img src="collision.png" alt=""></p>
+<p>把icon拖到sprite的Texture下<br><img src="icon.png" alt=""><br><img src="sprite.png" alt=""></p>
+<p>当前场景：<br><img src="scene.png" alt=""></p>
+<h3 id="创建GDNativeLibrary"><a href="#创建GDNativeLibrary" class="headerlink" title="创建GDNativeLibrary"></a>创建<code>GDNativeLibrary</code></h3><p>在资源面板下右击空白处，选择<code>New Resource</code><br><img src="gdnativelibrary.png" alt=""></p>
+<p>添加<code>GDNativeLibrary</code><br><img src="gdnativelibrary2.png" alt=""></p>
+<p>重命名为<code>gdnativelibrary.gdnlib</code>，注意后缀名<br><img src="gdnativelibrary3.png" alt=""></p>
+<p>在弹出的面板中找到windows一栏，点击64位对应的按钮<br><img src="gdnativelibrary4.png" alt=""></p>
+<p>选择之前的编译好的<code>test.dll</code><br><img src="gdnativelibrary5.png" alt=""></p>
+<h3 id="创建native-script"><a href="#创建native-script" class="headerlink" title="创建native script"></a>创建<code>native script</code></h3><p>选中<code>KinematicBody2D</code>，添加脚本<br><img src="script.png" alt=""></p>
+<p>选择<code>NativeScript</code><br><code>Class Name</code>就是自定义类的名字，也就是之前的Player<br><img src="gdnative.png" alt=""></p>
+<p>在inspector中可以看到<code>Library</code>选项，添加上述的<code>gdnativelibrary.gdnlib</code><br><img src="gdnative_inspector.png" alt=""><br><img src="load.png" alt=""><br><img src="load2.png" alt=""></p>
+<h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><p>保存场景，并设置主场景，运行<br>可以通过四个方向键来控制物体了<br><video controls="" preload="none" poster="demo.png"><br>    <source src="demo.mp4" type="video/mp4"><br></video></p>
+<p>参考自：<br><a href="https://github.com/godotengine/godot-cpp" target="_blank">godot-cpp</a></p>
+<p><a href="https://www.youtube.com/watch?v=voXapBgDdts&list=PLZ2NyOcFnfQOko5ZysZeGkH3bfw2UtbOK" target="_blank">Using C++ in GODOT Engine</a></p>
+<p><a href="https://www.youtube.com/watch?v=2hK7vOigbLQ" target="_blank">Godot Nativescript 1.1 introduction - writing C++ plugins<br></a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://eiuyc.tk/p/202010230/" data-id="ckgls7t5i0000ygfkbe7z98ku" data-title="在godot中使用cpp" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/godot/" rel="tag">godot</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/p/202010170/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">使用adb导出apk</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/p/202010230/">在godot中使用cpp</a>
+          </li>
+        
+          <li>
+            <a href="/p/202010170/">使用adb导出apk</a>
+          </li>
+        
+          <li>
+            <a href="/p/202010130/">使用gpg命令验证文件签名</a>
+          </li>
+        
+          <li>
+            <a href="/p/202010121/">github上的yolov5</a>
+          </li>
+        
+          <li>
+            <a href="/p/202010120/">使用vscode与g++命令编译以及使用DLL</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Blog/">Blog</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/GameDev/">GameDev</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ML/">ML</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Modeling/">Modeling</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cpp/">cpp</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js/">js</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/server/">server</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/adb/" style="font-size: 15px;">adb</a> <a href="/tags/blender/" style="font-size: 15px;">blender</a> <a href="/tags/g/" style="font-size: 10px;">g++</a> <a href="/tags/git/" style="font-size: 15px;">git</a> <a href="/tags/godot/" style="font-size: 20px;">godot</a> <a href="/tags/gpg/" style="font-size: 10px;">gpg</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/trick/" style="font-size: 20px;">trick</a>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Eiuyc<br>
+	  Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+	  <div id="msg"></div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
