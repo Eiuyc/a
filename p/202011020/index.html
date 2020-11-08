@@ -14,7 +14,7 @@
 <meta property="og:description" content=":)">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-11-02T05:45:16.000Z">
-<meta property="article:modified_time" content="2020-11-02T06:29:03.896Z">
+<meta property="article:modified_time" content="2020-11-08T13:06:41.405Z">
 <meta property="article:author" content="Eiuyc">
 <meta property="article:tag" content="trick">
 <meta name="twitter:card" content="summary">
@@ -111,7 +111,7 @@
 <p>使用-b选项：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -m http.server 1234 -b ::</span><br></pre></td></tr></table></figure>
 <p>将会报错</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">  File &quot;D:\Tools\Anaconda3\lib\http\server.py&quot;, line 1267, in &lt;module&gt;</span><br><span class="line">    test(HandlerClass&#x3D;handler_class, port&#x3D;args.port, bind&#x3D;args.bind)</span><br><span class="line">...</span><br><span class="line">  File &quot;pathtoAnaconda\Anaconda3\lib\socketserver.py&quot;, line 466, in server_bind</span><br><span class="line">    self.socket.bind(self.server_address)</span><br><span class="line">socket.gaierror: [Errno 11001] getaddrinfo failed</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">  File &quot;pathtoAnaconda\Anaconda3\lib\http\server.py&quot;, line 1267, in &lt;module&gt;</span><br><span class="line">    test(HandlerClass&#x3D;handler_class, port&#x3D;args.port, bind&#x3D;args.bind)</span><br><span class="line">...</span><br><span class="line">  File &quot;pathtoAnaconda\Anaconda3\lib\socketserver.py&quot;, line 466, in server_bind</span><br><span class="line">    self.socket.bind(self.server_address)</span><br><span class="line">socket.gaierror: [Errno 11001] getaddrinfo failed</span><br></pre></td></tr></table></figure>
 
 <p>修改这个server.py<br>将这两行：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">server_address &#x3D; (bind, port)</span><br><span class="line"></span><br><span class="line">HandlerClass.protocol_version &#x3D; protocol</span><br></pre></td></tr></table></figure>

@@ -14,7 +14,7 @@
 <meta property="og:description" content=":) 路由器可用的的存储只有不到60M，直接装python会失败。 把闲置的U盘用上">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-11-08T04:55:02.000Z">
-<meta property="article:modified_time" content="2020-11-08T07:21:33.926Z">
+<meta property="article:modified_time" content="2020-11-08T12:59:01.457Z">
 <meta property="article:author" content="Eiuyc">
 <meta property="article:tag" content="openwrt">
 <meta name="twitter:card" content="summary">
@@ -105,6 +105,7 @@
 <p>把闲置的U盘用上</p>
 <a id="more"></a>
 
+
 <h2 id="一、U盘格式化"><a href="#一、U盘格式化" class="headerlink" title="一、U盘格式化"></a>一、U盘格式化</h2><p>接入U盘后，手动挂载：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir &#x2F;mnt&#x2F;sda1</span><br><span class="line">mount &#x2F;dev&#x2F;sda1 &#x2F;mnt&#x2F;sda1</span><br></pre></td></tr></table></figure>
 <p>如果提示挂载失败，可以直接<a href="#format">格盘</a><br>最好先在window上格式化为FAT32</p>
@@ -112,7 +113,11 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">proc on &#x2F;proc type proc (rw,nosuid,nodev,noexec,noatime)</span><br><span class="line">tmpfs on &#x2F;tmp type tmpfs (rw,nosuid,nodev,noatime)</span><br><span class="line">overlayfs:&#x2F;overlay on &#x2F; type overlay (rw,noatime,lowerdir&#x3D;&#x2F;,upperdir&#x3D;&#x2F;overlay&#x2F;upper,workdir&#x3D;&#x2F;overlay&#x2F;work)</span><br><span class="line">tmpfs on &#x2F;dev type tmpfs (rw,nosuid,relatime,size&#x3D;512k,mode&#x3D;755)</span><br><span class="line">devpts on &#x2F;dev&#x2F;pts type devpts (rw,nosuid,noexec,relatime,mode&#x3D;600,ptmxmode&#x3D;000)</span><br><span class="line">&#x2F;dev&#x2F;sda1 on &#x2F;mnt&#x2F;sda1 type ext4 (rw,sync,relatime,data&#x3D;ordered)</span><br></pre></td></tr></table></figure>
 <p>注意最后一行/dev/sda1 on /mnt/sda1 type <code>ext4</code></p>
 <p>如果不是ext4（可能是vfat）则需要格式化，不然安装会失败</p>
-<h3 id="格盘"><a href="#格盘" class="headerlink" title="格盘"></a>格盘<a id="format"></a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># 安装格盘工具</span><br><span class="line">opkg update</span><br><span class="line">opkg install e2fsprogs</span><br><span class="line"></span><br><span class="line"># 取消挂载</span><br><span class="line">umount &#x2F;dev&#x2F;sda1</span><br><span class="line"></span><br><span class="line"># 格式化为ext4</span><br><span class="line">mkfs.ext4 &#x2F;dev&#x2F;sda1</span><br><span class="line"></span><br><span class="line"># 重新挂载</span><br><span class="line">mount &#x2F;dev&#x2F;sda1 &#x2F;mnt&#x2F;sda1</span><br></pre></td></tr></table></figure>
+<p><a id="format"></a></p>
+<h3 id="格盘"><a href="#格盘" class="headerlink" title="格盘"></a>格盘</h3><blockquote>
+<p>若ext4格式化后重启路由器无法识别U盘，可以尝试windows的FAT32格式。<a href="#1">问题描述</a></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># 安装格盘工具</span><br><span class="line">opkg update</span><br><span class="line">opkg install e2fsprogs</span><br><span class="line"></span><br><span class="line"># 取消挂载</span><br><span class="line">umount &#x2F;dev&#x2F;sda1</span><br><span class="line"></span><br><span class="line"># 格式化为ext4</span><br><span class="line">mkfs.ext4 &#x2F;dev&#x2F;sda1</span><br><span class="line"></span><br><span class="line"># 重新挂载</span><br><span class="line">mount &#x2F;dev&#x2F;sda1 &#x2F;mnt&#x2F;sda1</span><br></pre></td></tr></table></figure>
 
 <p><code>mount /dev/sda1 /mnt/sda1</code>报错：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">NTFS signature is missing.</span><br><span class="line">Failed to mount &#39;&#x2F;dev&#x2F;sda1&#39;: Invalid argument</span><br><span class="line">The device &#39;&#x2F;dev&#x2F;sda1&#39; doesn&#39;t seem to have a valid NTFS.</span><br><span class="line">Maybe the wrong device is used? Or the whole disk instead of a</span><br><span class="line">partition (e.g. &#x2F;dev&#x2F;sda, not &#x2F;dev&#x2F;sda1)? Or the other way around?</span><br></pre></td></tr></table></figure>
@@ -132,6 +137,17 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 编辑配置文件</span><br><span class="line">vi &#x2F;etc&#x2F;profile</span><br><span class="line"></span><br><span class="line"># 添加这一行</span><br><span class="line">export LD_LIBRARY_PATH&#x3D;&quot;&#x2F;mnt&#x2F;sda1&#x2F;pkgs&#x2F;usr&#x2F;lib&quot;</span><br><span class="line"></span><br><span class="line"># 刷新</span><br><span class="line">source &#x2F;etc&#x2F;profile</span><br></pre></td></tr></table></figure>
 <h2 id="五、运行python"><a href="#五、运行python" class="headerlink" title="五、运行python"></a>五、运行python</h2><p><code>python</code>:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Python 3.6.5 (default, Jul 15 2018, 12:30:50)</span><br><span class="line">[GCC 7.3.0] on linux</span><br><span class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="一些试验"><a href="#一些试验" class="headerlink" title="一些试验"></a>一些试验</h2><p>路由器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Architecture	MediaTek MT7628AN ver:1 eco:2</span><br><span class="line">Firmware Version	OpenWrt 18.06.1 r7258-5eb055306f &#x2F; LuCI openwrt-18.06 branch (git-18.196.56128-9112198)</span><br><span class="line">Kernel Version	4.14.63</span><br></pre></td></tr></table></figure>
+
+<p>U盘详细信息见<a href="http://localhost/p/202011070/#u">这一篇</a></p>
+<p><a id='1'></a></p>
+<h3 id="1-重启之后无法识别U盘"><a href="#1-重启之后无法识别U盘" class="headerlink" title="1.重启之后无法识别U盘"></a>1.重启之后无法识别U盘</h3><p>在<code>/dev</code>下只能看到<code>sda</code>而没有<code>sda1</code>，无法<code>mount</code></p>
+<p>在windows上格式化为FAT32<br>接入路由器<br>稍等一会儿（10秒左右）会自动mount<br><code>mount</code>信息:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">&#x2F;dev&#x2F;sda1 on &#x2F;mnt&#x2F;sda1 type vfat (rw,sync,relatime,fmask&#x3D;0000,dmask&#x3D;0000,allow_utime&#x3D;0022,codepage&#x3D;437,iocharset&#x3D;iso8859-1,shortname&#x3D;mixed,utf8,errors&#x3D;remount-ro)</span><br></pre></td></tr></table></figure>
+<p>按照之前的步骤安装python即可</p>
+<p>ps:<code>openwrt</code>每次重启都需要执行<code>opkg update</code>才能安装软件，还没解决</p>
 <hr>
 <p>参考自：</p>
 <p><a href="https://www.cnblogs.com/swordzj/archive/2012/12/30/2839788.html" target="_blank">Openwrt 安装软件到U盘或硬盘</a></p>
