@@ -14,7 +14,7 @@
 <meta property="og:description" content=":) 路由器可用的的存储只有不到60M，直接装python会失败。 把闲置的U盘用上">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-11-08T04:55:02.000Z">
-<meta property="article:modified_time" content="2020-11-08T14:15:21.442Z">
+<meta property="article:modified_time" content="2020-11-08T14:21:54.401Z">
 <meta property="article:author" content="Eiuyc">
 <meta property="article:tag" content="openwrt">
 <meta name="twitter:card" content="summary">
@@ -147,7 +147,7 @@
 <p>在windows上格式化为FAT32<br>接入路由器<br>稍等一会儿（10秒左右）会自动mount<br><code>mount</code>信息:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">&#x2F;dev&#x2F;sda1 on &#x2F;mnt&#x2F;sda1 type vfat (rw,sync,relatime,fmask&#x3D;0000,dmask&#x3D;0000,allow_utime&#x3D;0022,codepage&#x3D;437,iocharset&#x3D;iso8859-1,shortname&#x3D;mixed,utf8,errors&#x3D;remount-ro)</span><br></pre></td></tr></table></figure>
 <p>按照之前的步骤安装python即可</p>
-<h3 id="2-openwrt每次重启都需要执行opkg-update才能安装软件"><a href="#2-openwrt每次重启都需要执行opkg-update才能安装软件" class="headerlink" title="2.openwrt每次重启都需要执行opkg update才能安装软件"></a>2.<code>openwrt</code>每次重启都需要执行<code>opkg update</code>才能安装软件</h3><h3 id="3-从openwrt-mt300n-v2-3-025-bin更新至openwrt-mt300n-v2-3-102-binipv6失效"><a href="#3-从openwrt-mt300n-v2-3-025-bin更新至openwrt-mt300n-v2-3-102-binipv6失效" class="headerlink" title="3.从openwrt-mt300n-v2-3.025.bin更新至openwrt-mt300n-v2-3.102.binipv6失效"></a>3.从<code>openwrt-mt300n-v2-3.025.bin</code>更新至<code>openwrt-mt300n-v2-3.102.bin</code>ipv6失效</h3><p>无法获取上游ipvd-pd</p>
+<h3 id="2-openwrt每次重启都需要执行opkg-update才能安装软件"><a href="#2-openwrt每次重启都需要执行opkg-update才能安装软件" class="headerlink" title="2.openwrt每次重启都需要执行opkg update才能安装软件"></a>2.<code>openwrt</code>每次重启都需要执行<code>opkg update</code>才能安装软件</h3><h3 id="3-从openwrt-mt300n-v2-3-025-bin更新至openwrt-mt300n-v2-3-102-binipv6失效"><a href="#3-从openwrt-mt300n-v2-3-025-bin更新至openwrt-mt300n-v2-3-102-binipv6失效" class="headerlink" title="3.从openwrt-mt300n-v2-3.025.bin更新至openwrt-mt300n-v2-3.102.binipv6失效"></a>3.从<code>openwrt-mt300n-v2-3.025.bin</code>更新至<code>openwrt-mt300n-v2-3.102.bin</code>ipv6失效</h3><p>无法获取上游ipv6-pd</p>
 <p>只能更新回来<br><a href="https://docs.gl-inet.com/en/3/release_notes/gl-mt300n-v2/" target="_blank">GL-MT300N-V2 - Release Notes</a></p>
 <hr>
 <p>参考自：</p>
