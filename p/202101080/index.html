@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>yowo论文阅读笔记 | Eiuyc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content=":)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="yowo论文阅读笔记">
+<meta property="og:url" content="https://eiuyc.tk/p/202101080/index.html">
+<meta property="og:site_name" content="Eiuyc">
+<meta property="og:description" content=":)">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://eiuyc.tk/p/202101080/YOWO.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202101080/CFMA.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202101080/architecture.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202101080/8-8_16frames_cmp.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202101080/3D_backbone_cmp.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202101080/yowo_16frame_UCF101-24.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202101080/yowo_16frame_J-HMDB-21.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202101080/yowo_fps.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202101080/examples.png">
+<meta property="article:published_time" content="2021-01-08T07:15:44.000Z">
+<meta property="article:modified_time" content="2021-01-09T03:36:25.189Z">
+<meta property="article:author" content="Eiuyc">
+<meta property="article:tag" content="paper">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://eiuyc.tk/p/202101080/YOWO.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Eiuyc" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/e.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://eiuyc.tk"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-yowo-paper" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/p/202101080/" class="article-date">
+  <time class="dt-published" datetime="2021-01-08T07:15:44.000Z" itemprop="datePublished">2021-01-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/ML/">ML</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+		
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      yowo论文阅读笔记
+    </h1>
+  
+
+		<br>
+		<div style="height: 0.5px; background-color: rgb(230, 230, 230)"><div>
+	  </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>:)</p>
+<a id="more"></a>
+
+<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p><code>YOWO(You Only Watch Once)</code>，使用一个3D卷积和一个2D卷积网络提取时间和空间的特征信息，然后使用<code>CFAM(Channel Fusion &amp; Attention Module)</code>将两者的信息融合，再送入分类网络。YOWO最大支持16帧的短片作为输入，并使用预训练过的<code>3D-CNN</code>提取特征。</p>
+<p>主要贡献</p>
+<ol>
+<li>提出了实时的用于视频流时空动作定位的单阶段的框架<br>第一个同时使用<code>2D-CNN</code>与<code>3D-CNN</code>提取特征的方法，使用通道融合和注意力机制平滑聚合两个分支的特征信息。</li>
+<li>详细试验了两种网络的效果以及融合机制</li>
+<li>使用<code>J-HMDB-21</code>和<code>UCF101-24</code>对<code>YOWO</code>进行评估，在两个数据集上各有<code>3.3%</code>和<code>12.2%</code>的<code>frame-mAP</code>的提升。<code>YOWO</code>在16帧和8帧的输入上分别有<code>34fps</code>和<code>62fps</code>的速度。是目前最快的时空动作定位架构</li>
+</ol>
+<h2 id="相关工作"><a href="#相关工作" class="headerlink" title="相关工作"></a>相关工作</h2><ol>
+<li><p>基于深度学习的动作检测<br>灵感来自于2D-CNN残差网络</p>
+</li>
+<li><p>时空动作定位<br>使用<code>3D-CNN</code>进行时间特征信息提取。比起<code>2D-CNN</code>，比较耗资源。作者指出，可用的<code>3D-CNN</code>有如下这些，并在github上提供了<a href="https://github.com/okankop/Efficient-3DCNNs" target="_blank">链接</a></p>
+<center>
+
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>参数量</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>resnext101</td>
+<td>48.24M</td>
+</tr>
+<tr>
+<td>resnet101</td>
+<td>83.29M</td>
+</tr>
+<tr>
+<td>resnet50</td>
+<td>44.24M</td>
+</tr>
+<tr>
+<td>resnet18</td>
+<td>33.24M</td>
+</tr>
+<tr>
+<td>mobilenet_2x</td>
+<td>14.10M</td>
+</tr>
+<tr>
+<td>mobilenetv2_1x</td>
+<td>6.64M</td>
+</tr>
+<tr>
+<td>shufflenet_2x</td>
+<td>4.78M</td>
+</tr>
+<tr>
+<td>shufflenetv2_2x</td>
+<td>6.64M</td>
+</tr>
+</tbody></table>
+</center>
+
+<ol start="3">
+<li>注意力模块<br>用于捕获远距离的依赖项，以提升图片分类的性能</li>
+</ol>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><h3 id="YOWO框架"><a href="#YOWO框架" class="headerlink" title="YOWO框架"></a>YOWO框架</h3><p>四个主要部分:3D-CNN分支、2D-CNN分支、CFAM和边界框回归<br><img src="YOWO.png" alt=""></p>
+<ol>
+<li><p>3D-CNN<br>默认使用<code>resnext101</code>。<br>默认输入为连续16帧片段[$C \times D \times H \times W$]<br>输出为一个特征图[$C’ \times D’ \times H’ \times W’$]，$C=3$，$C’$是输出通道数，$D$是输入帧数，$D’=1$。$H=H’/32,W=W’/32$</p>
+</li>
+<li><p>2D-CNN<br>默认使用<code>Darknet-19</code><br>输入是关键帧[$C \times H \times W$]<br>输出为一个特征图[$C’’ \times H’ \times W’$]，$C=3$，$C’’$是输出通道数，$H=H’/32,W=W’/32$</p>
+</li>
+<li><p>通道融合与注意机制(CFAM)<br><img src="CFMA.png" alt=""><br>将两个特征图叠在一起$A[(C’+C’’) \times H’ \times W’]$<br>A经过两个卷积层，得到B$[C \times H’ \times W’]$<br>将B的每个通道的特征图拉成一维，得到F$[C \times N]$，$N=H’ \times W’$<br>令$G=F \times F^T$，G$[C \times C]$表明了跨通道的特征关联【？】<br>使用softmax层生成通道注意图M$[C \times C]$，【？】<br>$M_{ij}=\frac{exp(G_{ij})}{\sum_{j=1}^Cexp(G_{ij})}$<br>其中$M_{ij}$是衡量第$j$个通道对第$i$个通道影响的分数。$M$在给定特征图的情况下总结了特征的通道间依赖性【？】<br>令$F’=M \times F$，$F’[C \times C]$<br>将$F’$的每个通道的一维向量转换为$[H\times W]$，得到$F’’$<br>最后$C=\alpha \cdot F’’+B$，$C[C\times H\times W]$为注意力模块的输出，$\alpha$为可训练的参数，从0逐渐学习权重。  </p>
+</li>
+<li><p>边界框回归<br>遵循和YOLO的边界框回归相同的准则。使用$1\times 1$的卷积核生成所需的输出通道数。对于$[H’\times W’]$上的每一个像素点，使用k均值方法在相应的数据集上选出5个预选框，每个预选框伴随着$NumCls$个类别的动作分数，同时有4个坐标值和1个置信度，所以最后的输出形状为$[5\times(NumCls+5)\times H’\times W’]$，然后基于这些锚点优化边界框回归。</p>
+</li>
+</ol>
+<h3 id="实现细节"><a href="#实现细节" class="headerlink" title="实现细节"></a>实现细节</h3><p>3D网络使用了在<code>Kinetics</code>上预训练的模型作初始化，2D网络则是用<code>PAS-CAL VOC</code>预训练的模型。初始的学习率是0.0001，在30k，40k，50k，60k次迭代时乘上0.5。在<code>UCF101-24</code>上，训练会在5个epoch后完成，而<code>J-HMDB-21</code>则是在10个后。作者是用了一个<code>Nvidia Titan XP GPU</code>完成训练的。<br>由于<code>J-HMDB-21</code>比较小，作者将3D网络的参数都冻结了，加速收敛，减小过拟合的风险。在两个数据集上，使用水平翻转、随机缩放、随机裁剪进行数据增强。测试时，只有置信度大于0.25的检测边界框会被选出来，然后使用阈值为0.4的非极大值抑制算法进行后处理。</p>
+<h3 id="链接策略"><a href="#链接策略" class="headerlink" title="链接策略"></a>链接策略</h3><p>每帧上的行为检测已经给出了边界框，接下来就是将框在时间上连接起来。假设$R_t$和$R_{t+1}$分别是连续帧$t$和$t+1$中的两个区域，那么类别$c$的链接分数定义如下：<br>$$\begin{aligned}<br>s_c(R_t,R_{t+1})=&amp;<br>\psi(ov)\cdot[s_c(R_t)+s_c(R_{t+1})\<br>&amp;+\alpha\cdot s_c(R_t)\cdot s_c(R_{t+1})\<br>&amp;+\beta\cdot ov(R_t,R_{t+1})]<br>\end{aligned}$$<br>其中$s_c(R_t)$和$s_c(R_{t+1})$是区域的类特殊得分<code>(class specific score)</code>，$ov$是两个区域的交并比<code>(IoU)</code>，$\alpha$和$\beta$是两个标量。如果$ov&gt;0$，$\psi(ov)=1$；不然为0。$\alpha\cdot s_c(R_t)\cdot s_c(R_{t+1})$考虑到了两个连续帧的分数的戏剧性的变化，实验中把它加进来可以提高检测性能。在所有链接分数计算完成之后，使用<code>Viterbi algorithm</code>寻找最优的路径，来生成动作管。【？】</p>
+<h3 id="长期特征池-Long-Term-Feature-Bank"><a href="#长期特征池-Long-Term-Feature-Bank" class="headerlink" title="长期特征池(Long-Term Feature Bank)"></a>长期特征池(Long-Term Feature Bank)</h3><p>作者为3D骨干网络在不同时间戳所提取的特征建立了一个<code>Bank</code>。在推理的时候，集中在关键帧的3D特征会被计算出一个平均值，而特征图会作为<code>CFAM</code>的输入。池子里的特征会被预训练的3D resnext101骨干网络提取出来，做成不重叠的8帧片段。【？】</p>
+<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><h3 id="数据集与评估矩阵"><a href="#数据集与评估矩阵" class="headerlink" title="数据集与评估矩阵"></a>数据集与评估矩阵</h3><p><code>UCF101-24</code>是<code>UCF101</code>的子集，包含24个动作类别和3207个视频，并提供了相应的注解。每个视频有可能包含多个动作实例，类标签相同而时空边界不同。<br><code>J-HMDB-21</code>是<code>HMDB-51</code>的子集，包含928个生活短片，21个动作类别。每一个帧只有一个动作。<br>评估矩阵参照<code>PASCAL VOC 2012 metric</code>，<code>frame-mAP</code>衡量每一帧检测的精度-召回曲线<code>(precision-recall curve)</code>下方的区域。<code>video-mAP</code>注重动作管。如果在整个视频上，平均每帧与<code>groundtruth</code>的<code>IoU</code>大于阈值，同时动作标签正确预测，那么检测管道就认为是正确的。</p>
+<h3 id="消融实验"><a href="#消融实验" class="headerlink" title="消融实验"></a>消融实验</h3><h4 id="不同架构"><a href="#不同架构" class="headerlink" title="不同架构"></a>不同架构</h4><p>在<code>2D</code>，<code>3D</code>，<code>2D+3D</code>，<code>2D+3D+CFAM</code>上分别实验，并进行对比。给出了一些数据，证明YOWO架构的优越性。<code>2D</code>注重空间定位，而<code>3D</code>考虑了时间信息，在动作分类上更好，注意力模块则使得2种特征更合理地混合。<br><img src="architecture.png" alt=""></p>
+<h4 id="不同的短片帧数与下采样率"><a href="#不同的短片帧数与下采样率" class="headerlink" title="不同的短片帧数与下采样率"></a>不同的短片帧数与下采样率</h4><p>在8帧短片上对比下采样率分别为1，2，3的情况；在16帧上对比下采样率分别为1，2的情况。结论是帧数为16的好于8，因为包含更多时间信息；在上述范围中，高下采样率会降低性能。作者推断下采样妨碍了模型正确地捕获动作模式，且太长的序列会打破时间上的上下文联系。尤其是比较快的动作，可能有一些不相关序列成了干扰。<br><img src="8-8_16frames_cmp.png" alt=""></p>
+<h4 id="不同的3D骨干网络"><a href="#不同的3D骨干网络" class="headerlink" title="不同的3D骨干网络"></a>不同的3D骨干网络</h4><p>更强的骨干网络效果更好<br><img src="3D_backbone_cmp.png" alt=""></p>
+<h3 id="技术对比"><a href="#技术对比" class="headerlink" title="技术对比"></a>技术对比</h3><p><img src="yowo_16frame_UCF101-24.png" alt=""><br><img src="yowo_16frame_J-HMDB-21.png" alt=""><br><img src="yowo_fps.png" alt=""></p>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ol>
+<li>在动作发生之前就判断动作。如第一排最后一张，人物并未投篮。</li>
+<li>需要一定长度的帧来获取时间信息，帧数太短会导致误判。如最后一张，识别成爬楼梯而不是跑步。<br><img src="examples.png" alt=""></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://eiuyc.tk/p/202101080/" data-id="ckjp5pwx50000gkfk5kwc66nu" data-title="yowo论文阅读笔记" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/paper/" rel="tag">paper</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/p/20210108undefined/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">yowo-paper</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/p/202101080/">yowo论文阅读笔记</a>
+          </li>
+        
+          <li>
+            <a href="/p/20210108undefined/">yowo-paper</a>
+          </li>
+        
+          <li>
+            <a href="/p/202101060/">YOWO项目-流水</a>
+          </li>
+        
+          <li>
+            <a href="/p/202011080/">给openwrt加存储，安装python</a>
+          </li>
+        
+          <li>
+            <a href="/p/202011070/">修复有写保护的U盘</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Blog/">Blog</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/GameDev/">GameDev</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ML/">ML</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Modeling/">Modeling</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cpp/">cpp</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/disk/">disk</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js/">js</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/router/">router</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/server/">server</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/adb/" style="font-size: 13.33px;">adb</a> <a href="/tags/blender/" style="font-size: 13.33px;">blender</a> <a href="/tags/g/" style="font-size: 10px;">g++</a> <a href="/tags/git/" style="font-size: 13.33px;">git</a> <a href="/tags/godot/" style="font-size: 16.67px;">godot</a> <a href="/tags/gpg/" style="font-size: 10px;">gpg</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/paper/" style="font-size: 10px;">paper</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/server/" style="font-size: 10px;">server</a> <a href="/tags/trick/" style="font-size: 20px;">trick</a>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Eiuyc<br>
+	  Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+	  <div id="msg"></div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
