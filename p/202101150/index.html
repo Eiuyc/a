@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>YOLO自定义数据集制作与训练记录 | Eiuyc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content=":)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="YOLO自定义数据集制作与训练记录">
+<meta property="og:url" content="https://eiuyc.tk/p/202101150/index.html">
+<meta property="og:site_name" content="Eiuyc">
+<meta property="og:description" content=":)">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://eiuyc.tk/p/202101150/aim.jpg">
+<meta property="og:image" content="https://eiuyc.tk/p/202101150/label_visual.jpg">
+<meta property="og:image" content="https://eiuyc.tk/p/202101150/get_sample.jpg">
+<meta property="og:image" content="https://eiuyc.tk/p/202101150/get_regular_sample.jpg">
+<meta property="og:image" content="https://eiuyc.tk/p/202101150/get_sampel_with_bg.jpg">
+<meta property="og:image" content="https://eiuyc.tk/p/202101150/one_word.jpg">
+<meta property="og:image" content="https://eiuyc.tk/p/202101150/one_word_with_bg.jpg">
+<meta property="og:image" content="https://eiuyc.tk/p/202101150/result1.jpg">
+<meta property="og:image" content="https://eiuyc.tk/p/202101150/result2.jpg">
+<meta property="og:image" content="https://eiuyc.tk/p/202101150/result_single.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202101150/real_iou0.1.jpg">
+<meta property="og:image" content="https://eiuyc.tk/p/202101150/real_iou0.1.jpg">
+<meta property="article:published_time" content="2021-01-15T03:48:44.000Z">
+<meta property="article:modified_time" content="2021-01-18T12:37:50.524Z">
+<meta property="article:author" content="Eiuyc">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="yolo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://eiuyc.tk/p/202101150/aim.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Eiuyc" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/e.ico">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css" rel="stylesheet" type="text/css">
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://eiuyc.tk"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-yolo-training" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/p/202101150/" class="article-date">
+  <time class="dt-published" datetime="2021-01-15T03:48:44.000Z" itemprop="datePublished">2021-01-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/ML/">ML</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+		
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      YOLO自定义数据集制作与训练记录
+    </h1>
+  
+
+		<br>
+		<div style="height: 0.5px; background-color: rgb(230, 230, 230)"><div>
+	  </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>:)</p>
+<a id="more"></a>
+<h2 id="1-目标"><a class="markdownIt-Anchor" href="#1-目标"></a> 1. 目标</h2>
+<p>将字帖上的每个字单独框选出来<br />
+<img src="aim.jpg" alt="" /></p>
+<h2 id="2-数据集"><a class="markdownIt-Anchor" href="#2-数据集"></a> 2. 数据集</h2>
+<p><code>yolov5</code>推荐了<code>coco128</code>（<a href="https://github.com/ultralytics/yolov5/wiki/Train-Custom-Data" target="_blank">链接</a>）</p>
+<h3 id="21-数据集格式"><a class="markdownIt-Anchor" href="#21-数据集格式"></a> 2.1. 数据集格式</h3>
+<h4 id="211-yaml文件"><a class="markdownIt-Anchor" href="#211-yaml文件"></a> 2.1.1. yaml文件</h4>
+<p>数据集通过<code>yaml文件</code>帮助模型定位数据，格式如下</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 下载链接 (可选)</span></span><br><span class="line"><span class="attr">download:</span> <span class="string">https://some.com/dataset.zip</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练集和测试集的路径，可以是一个 1) 目录: path/images/, 2) 文件: path/images.txt, 或是 3) 列表: [path1/images/, path2/images/]</span></span><br><span class="line"><span class="attr">train:</span> <span class="string">../coco128/images/train2017/</span></span><br><span class="line"><span class="attr">val:</span> <span class="string">../coco128/images/train2017/</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 需要检测的类别数</span></span><br><span class="line"><span class="attr">nc:</span> <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 类别名称</span></span><br><span class="line"><span class="attr">names:</span> <span class="string">['people','cat','dog']</span></span><br></pre></td></tr></table></figure>
+<p>因为coco128很小，只有128张图片，所以将训练集与测试集设置为一个。一般情况下，上述两个路径应当分别指向训练集与数据集。值得注意的是，相对路径应当设置为<code>执行脚本</code>与<code>数据集</code>之间的相对路径。</p>
+<h4 id="212-样本与标签"><a class="markdownIt-Anchor" href="#212-样本与标签"></a> 2.1.2. 样本与标签</h4>
+<p>每一个样本都是一个<code>jpeg</code>格式的图片，每一个标签都是一个<code>txt</code>文件。样本名称与标签名称一一对应，比如<code>00001.jpg</code>对应于<code>00001.txt</code>。倘若图像中符合所规定的类的物体有多个，则对应的标签也有多行。<br />
+标签的每一行的格式如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;类别 id&gt; &lt;正规化的边界框中心的x坐标&gt; &lt;正规化的边界框中心的y坐标&gt; &lt;正规化的图像宽度&gt; &lt;正规化的图像高度&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="label_visual.jpg" alt="" /></p>
+<h4 id="213-目录结构"><a class="markdownIt-Anchor" href="#213-目录结构"></a> 2.1.3. 目录结构</h4>
+<p>注意到在之前的<code>yaml文件</code>中，<code>train</code>与<code>val</code>都只是指明了图像的路径，这是<strong>因为YOLOv5会自动将图像路径中最后一个<code>images</code>字段替换为<code>labels</code>来定位标签</strong>。比如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">coco&#x2F;images&#x2F;train2017&#x2F;000000109622.jpg  # image</span><br><span class="line">coco&#x2F;labels&#x2F;train2017&#x2F;000000109622.txt  # label</span><br></pre></td></tr></table></figure>
+<p>所以图像样本与标签的路径应当统一。假设数据集与<code>YOLO</code>目录平行处于同一个目录下，则下面给出了一个目录结构的例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── coco</span><br><span class="line">|   ├── images</span><br><span class="line">|   |   ├── train2017</span><br><span class="line">|   |   └── val2017</span><br><span class="line">|   └── labels</span><br><span class="line">|       ├── train2017</span><br><span class="line">|       └── val2017</span><br><span class="line">└── yolov5</span><br><span class="line">    ├── Dockerfile</span><br><span class="line">    ├── LICENSE</span><br><span class="line">    ├── README.md</span><br><span class="line">    ├── tutorial.ipynb</span><br><span class="line">    ├── data</span><br><span class="line">    ├── detect.py</span><br><span class="line">    ├── hubconf.py</span><br><span class="line">    ├── models</span><br><span class="line">    ├── requirements.txt</span><br><span class="line">    ├── runs</span><br><span class="line">    ├── test.py</span><br><span class="line">    ├── train.py</span><br><span class="line">    ├── utils</span><br><span class="line">    └── weights</span><br></pre></td></tr></table></figure>
+<h3 id="22-数据集准备"><a class="markdownIt-Anchor" href="#22-数据集准备"></a> 2.2. 数据集准备</h3>
+<p>字库为包含<code>3755</code>个常用汉字的一级字库，字体为楷体<code>simka.ttf</code>。通过执行脚本生成样本。</p>
+<table>
+  <tr>
+    <th style="text-align:center">白底黑字+随机位置+随机小尺寸缩放</td>
+    <th style="text-align:center">字帖背景黑字+规范位置+随机小尺寸缩放</td>
+    <th style="text-align:center">字帖背景黑字+随机位置+随机小尺寸缩放</td>
+  </tr>
+  <tr>
+    <td><img src="get_sample.jpg" width=300></td>
+    <td><img src="get_regular_sample.jpg" width=300></td>
+    <td><img src="get_sampel_with_bg.jpg" width=300></td>
+  </tr>
+</table>
+<table>
+  <tr>
+    <th style="text-align:center">白底单黑字</td>
+    <th style="text-align:center">字帖背景黑单字</td>
+  </tr>
+  <tr>
+    <td><img src="one_word.jpg" width=200></td>
+    <td><img src="one_word_with_bg.jpg" width=200></td>
+  </tr>
+</table>
+<p>按照<code>yaml文件</code>的格式，编写<code>words.yaml</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">train: ..&#x2F;words&#x2F;train&#x2F;images&#x2F;</span><br><span class="line">val: ..&#x2F;words&#x2F;val&#x2F;images&#x2F;</span><br><span class="line"></span><br><span class="line">nc: 1</span><br><span class="line"></span><br><span class="line">names: [&#39;word&#39;]</span><br></pre></td></tr></table></figure>
+<p>放在哪里没有强制要求，在训练时需要指定这个文件的路径即可</p>
+<p>生成数据，并按上述路径放好：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── data</span><br><span class="line">|   ├── train</span><br><span class="line">|   |   ├── images</span><br><span class="line">|   |   └── labels</span><br><span class="line">|   └── val</span><br><span class="line">|       ├── images</span><br><span class="line">|       └── labels</span><br><span class="line">└── yolov5</span><br></pre></td></tr></table></figure>
+<h3 id="23-数据集生成所用脚本部分代码说明"><a class="markdownIt-Anchor" href="#23-数据集生成所用脚本部分代码说明"></a> 2.3. 数据集生成所用脚本部分代码说明</h3>
+<p>一些版本号:</p>
+<center>
+<table style="width:70%">
+  <tr>
+    <th width=50%>项</td>
+    <th>版本</td>
+  </tr>
+  <tr>
+    <td>win10</td>
+    <td>1909</td>
+  </tr>
+  <tr>
+    <td>python</td>
+    <td>3.7.3</td>
+  </tr>
+  <tr>
+    <td>tensorflow</td>
+    <td>2.1.0</td>
+  </tr>
+  <tr>
+    <td>torch</td>
+    <td>1.7.1+cu110</td>
+  </tr>
+  <tr>
+    <td>Pillow</td>
+    <td>7.0.0</td>
+  </tr>
+  <tr>
+    <td>opencv-python</td>
+    <td>4.2.0.32</td>
+  </tr>
+  <tr>
+    <td>numpy</td>
+    <td>1.19.5</td>
+  </tr>
+</table>
+</center>
+<p>所用的字库为包含了<code>3755</code>个常用汉字的<code>一级字库</code></p>
+<h4 id="231-配置和工具说明"><a class="markdownIt-Anchor" href="#231-配置和工具说明"></a> 2.3.1. 配置和工具说明</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ch_list存储字库</span></span><br><span class="line"><span class="keyword">with</span> open(data_path+<span class="string">'3755.txt'</span>, <span class="string">'r'</span>, encoding=<span class="string">'utf-8'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    ch_list = f.readline()</span><br><span class="line"><span class="comment"># 使用带有透明度的RGBA</span></span><br><span class="line">COLOR_MODE = <span class="string">'RGBA'</span></span><br><span class="line">FONT_NAME = <span class="string">'simka.ttf'</span></span><br><span class="line">FONT_SIZE = <span class="number">136</span></span><br><span class="line">FONT_ENCODING = <span class="string">'unic'</span> <span class="comment">#'bg2312'</span></span><br><span class="line">IMG_SIZE = <span class="number">128</span></span><br><span class="line"><span class="comment"># 背景相关</span></span><br><span class="line">BG_COLOR = <span class="string">'white'</span></span><br><span class="line">BG_SIZE = <span class="number">1024</span></span><br><span class="line">BG = np.array(Image.new(COLOR_MODE, (BG_SIZE,BG_SIZE), BG_COLOR))</span><br><span class="line">BG_PIC = np.array(Image.open(<span class="string">'bg.png'</span>))</span><br><span class="line"><span class="comment"># 随机缩放因子</span></span><br><span class="line">SCALES = [<span class="number">0.8</span>, <span class="number">0.9</span>, <span class="number">1.0</span>, <span class="number">1.1</span>]</span><br><span class="line"><span class="comment"># 字体写入相关</span></span><br><span class="line">TEXT_LOCATION = (<span class="number">-4</span>, <span class="number">-4</span>)</span><br><span class="line">TEXT_COLOR = <span class="string">'black'</span></span><br><span class="line">FONT = ImageFont.truetype(FONT_NAME, FONT_SIZE, encoding=FONT_ENCODING)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取单张楷体字，白底黑字</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_word_img</span><span class="params">()</span>:</span></span><br><span class="line">    index = np.random.randint(len(ch_list))</span><br><span class="line">    word = ch_list[index]</span><br><span class="line">    img = Image.new(COLOR_MODE, (IMG_SIZE,IMG_SIZE), BG_COLOR)</span><br><span class="line">    draw = ImageDraw.Draw(img)</span><br><span class="line">    draw.text(TEXT_LOCATION, word, font=FONT, fill=TEXT_COLOR)</span><br><span class="line">    img = np.array(img)</span><br><span class="line">    img_size = int(np.random.choice(SCALES)*IMG_SIZE)</span><br><span class="line">    <span class="keyword">return</span> cv2.resize(img, (img_size, img_size)), img_size</span><br><span class="line"><span class="comment"># 检测重叠</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">detect_overlap</span><span class="params">(tmp_record, records)</span>:</span></span><br><span class="line">    x0,y0,s1,s1 = tmp_record</span><br><span class="line">    <span class="keyword">for</span> (x,y,s2,s2) <span class="keyword">in</span> records:</span><br><span class="line">        <span class="keyword">if</span> abs(y0-y)+abs(x0-x)&lt;s1+s2:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"><span class="comment"># 数据标签转换工具</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">data_to_label</span><span class="params">(data)</span>:</span></span><br><span class="line">    ab_x, ab_y, box_w, box_h = data</span><br><span class="line">    <span class="keyword">return</span> (<span class="number">0</span>, ab_x/BG_SIZE, ab_y/BG_SIZE, box_w/BG_SIZE, box_h/BG_SIZE)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">label_to_data</span><span class="params">(record)</span>:</span></span><br><span class="line">    _, x, y, w, h = record</span><br><span class="line">    <span class="keyword">return</span> list(map(int, (x*BG_SIZE, y*BG_SIZE, w*BG_SIZE, h*BG_SIZE)))</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cut_with_data</span><span class="params">(img, data)</span>:</span></span><br><span class="line">    ab_x, ab_y, box_w, box_h = data</span><br><span class="line">    <span class="keyword">return</span> img[ab_y-box_h//<span class="number">2</span>:ab_y+box_h//<span class="number">2</span>, ab_x-box_w//<span class="number">2</span>:ab_x+box_w//<span class="number">2</span>]</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cut_with_label</span><span class="params">(img, label)</span>:</span></span><br><span class="line">    data = label_to_data(label)</span><br><span class="line">    <span class="keyword">return</span> cut_with_data(img, data)</span><br></pre></td></tr></table></figure>
+<h4 id="232-白底黑字随机位置随机小尺寸缩放"><a class="markdownIt-Anchor" href="#232-白底黑字随机位置随机小尺寸缩放"></a> 2.3.2. 白底黑字+随机位置+随机小尺寸缩放</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_sample</span><span class="params">(to_rgb=False)</span>:</span></span><br><span class="line">    bg = BG.copy()</span><br><span class="line">    word_num = np.random.randint(<span class="number">4</span>,<span class="number">32</span>)</span><br><span class="line">    i=<span class="number">0</span></span><br><span class="line">    records = []</span><br><span class="line">    <span class="keyword">while</span> i&lt;word_num:</span><br><span class="line">        i+=<span class="number">1</span></span><br><span class="line">        img, img_size = np.array(get_word_img())</span><br><span class="line">        x, y = np.random.randint(BG_SIZE-img_size,size=(<span class="number">2</span>,))</span><br><span class="line">        tmp_record = (x+img_size//<span class="number">2</span>, y+img_size//<span class="number">2</span>, img_size, img_size)</span><br><span class="line">        f = <span class="number">0</span></span><br><span class="line">        try_time = <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">if</span> try_time&gt;=<span class="number">3</span>: <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">if</span> detect_overlap(tmp_record, records):</span><br><span class="line">                x, y = np.random.randint(BG_SIZE-img_size,size=(<span class="number">2</span>,))</span><br><span class="line">                tmp_record = (x+img_size//<span class="number">2</span>, y+img_size//<span class="number">2</span>, img_size, img_size)</span><br><span class="line">                try_time += <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                f = <span class="number">1</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> f: <span class="keyword">continue</span></span><br><span class="line">        x, y = tmp_record[<span class="number">0</span>]-img_size//<span class="number">2</span>, tmp_record[<span class="number">1</span>]-img_size//<span class="number">2</span></span><br><span class="line">        bg[y:y+img_size,x:x+img_size,:<span class="number">3</span>] = img[...,:<span class="number">3</span>]</span><br><span class="line">        records.append(tmp_record)</span><br><span class="line">    <span class="keyword">if</span> to_rgb:</span><br><span class="line">        bg = cv2.cvtColor(bg, cv2.COLOR_RGBA2RGB)</span><br><span class="line">    <span class="keyword">return</span> bg, records</span><br></pre></td></tr></table></figure>
+<h4 id="233-字帖背景黑字规范位置随机小尺寸缩放"><a class="markdownIt-Anchor" href="#233-字帖背景黑字规范位置随机小尺寸缩放"></a> 2.3.3. 字帖背景黑字+规范位置+随机小尺寸缩放</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_regular_sample</span><span class="params">()</span>:</span></span><br><span class="line">    bg = BG.copy()</span><br><span class="line">    line_num = np.random.randint(BG_SIZE//IMG_SIZE) + <span class="number">1</span></span><br><span class="line">    selected_line_index = np.random.choice(</span><br><span class="line">        LINE_INDEX, </span><br><span class="line">        size=line_num, </span><br><span class="line">        replace=<span class="literal">False</span>, </span><br><span class="line">        p=[<span class="number">0.025</span>,<span class="number">0.025</span>,<span class="number">0.105</span>,<span class="number">0.145</span>,<span class="number">0.155</span>,<span class="number">0.165</span>,<span class="number">0.185</span>,<span class="number">0.195</span>]</span><br><span class="line">        )</span><br><span class="line">    bg, records = draw_words_line(bg, selected_line_index)</span><br><span class="line">    bg = add_bg_pic(bg)</span><br><span class="line">    <span class="keyword">return</span> bg, records</span><br></pre></td></tr></table></figure>
+<h4 id="234-字帖背景黑字随机位置随机小尺寸缩放"><a class="markdownIt-Anchor" href="#234-字帖背景黑字随机位置随机小尺寸缩放"></a> 2.3.4. 字帖背景黑字+随机位置+随机小尺寸缩放</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_sample_with_bg</span><span class="params">()</span>:</span></span><br><span class="line">    bg, records = get_sample()</span><br><span class="line">    bg = add_bg_pic(bg)</span><br><span class="line">    <span class="keyword">return</span> bg, records</span><br></pre></td></tr></table></figure>
+<h4 id="235-白底单黑字和字帖背景黑单字"><a class="markdownIt-Anchor" href="#235-白底单黑字和字帖背景黑单字"></a> 2.3.5. 白底单黑字和字帖背景黑单字</h4>
+<p>通过截取白底和字帖背景规范位置样本中的单字完成</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 随机取出大样本</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_random_big_sample</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">if</span> np.random.randint(<span class="number">2</span>):</span><br><span class="line">        bg, records = get_sample(<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        bg, records = [get_regular_sample, get_sample_with_bg][np.random.randint(<span class="number">2</span>)]()</span><br><span class="line">    <span class="keyword">return</span> bg, records</span><br><span class="line"><span class="comment"># 通过大样本截出小样本</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_one_word_sample</span><span class="params">()</span>:</span></span><br><span class="line">    bg, records = get_random_big_sample()</span><br><span class="line">    data = records[<span class="number">0</span>]</span><br><span class="line">    label = data_to_label(data)</span><br><span class="line">    img = cut_with_label(bg, label)</span><br><span class="line">    img = cv2.resize(img, (BG_SIZE, BG_SIZE))</span><br><span class="line">    <span class="keyword">return</span> img, [(BG_SIZE//<span class="number">2</span>, BG_SIZE//<span class="number">2</span>, BG_SIZE, BG_SIZE)]</span><br></pre></td></tr></table></figure>
+<h4 id="236-随机样本"><a class="markdownIt-Anchor" href="#236-随机样本"></a> 2.3.6. 随机样本</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_random_sample</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> [get_random_big_sample, get_one_word_sample][np.random.randint(<span class="number">2</span>)]()</span><br></pre></td></tr></table></figure>
+<h2 id="3-训练"><a class="markdownIt-Anchor" href="#3-训练"></a> 3. 训练</h2>
+<p>在开始训练之前，需要将<code>yolov5/models/yolov5s.yaml</code>中的<code>nc: 80</code>更改为<code>nc: 1</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># parameters</span></span><br><span class="line"><span class="attr">nc:</span> <span class="number">1</span>  <span class="comment"># number of classes</span></span><br><span class="line"><span class="attr">depth_multiple:</span> <span class="number">0.33</span>  <span class="comment"># model depth multiple</span></span><br><span class="line"><span class="attr">width_multiple:</span> <span class="number">0.50</span>  <span class="comment"># layer channel multiple</span></span><br><span class="line"></span><br><span class="line"><span class="string">...</span></span><br></pre></td></tr></table></figure>
+<p>执行训练脚本</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python train.py --batch 12 --epochs 20 --data ../words/words.yaml --weights yolov5s.pt --nosave --cache</span><br></pre></td></tr></table></figure>
+<p>训练完成之后会提示所保存的模型位置，可以使用脚本测试</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python detect.py --weights runs/train/exp/weights/last.pt --img 640 --conf 0.25 --source ../words/val/images/</span><br></pre></td></tr></table></figure>
+<h2 id="4-结果"><a class="markdownIt-Anchor" href="#4-结果"></a> 4. 结果</h2>
+<p>在4000张数据下，20个epoch的结果：</p>
+<table>
+  <tr>
+    <th style="text-align:center">字帖背景</td>
+     <th style="text-align:center">无背景</td>
+     <th style="text-align:center">单个字的边界框恰好在边缘</td>
+  </tr>
+  <tr>
+    <td><img src="result1.jpg" width=200></td>
+    <td><img src="result2.jpg" width=200></td>
+    <td><img src="result_single.png" width=100></td>
+  </tr>
+ </table>
+<p><img src="real_iou0.1.jpg" alt="复杂一些的样本会出现重合" /></p>
+<p>可以使用<code>--iou &lt;阈值&gt;</code>来缓解</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python detect.py --weights runs/train/exp/weights/last.pt --img 640 --conf 0.25 --source ../words/val/images/ --iou 0.1</span><br></pre></td></tr></table></figure>
+<p><img src="real_iou0.1.jpg" alt="字帖" /></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://eiuyc.tk/p/202101150/" data-id="ckjxvs2sd0000mgfkab8r5mhb" data-title="YOLO自定义数据集制作与训练记录" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/yolo/" rel="tag">yolo</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/p/202101170/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          pytorch搭建CNN，单汉字数据集制作与训练记录
+        
+      </div>
+    </a>
+  
+  
+    <a href="/p/202101111/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">vscode更新会重置其目录下的其它文件</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/p/202101170/">pytorch搭建CNN，单汉字数据集制作与训练记录</a>
+          </li>
+        
+          <li>
+            <a href="/p/202101150/">YOLO自定义数据集制作与训练记录</a>
+          </li>
+        
+          <li>
+            <a href="/p/202101111/">vscode更新会重置其目录下的其它文件</a>
+          </li>
+        
+          <li>
+            <a href="/p/202101110/">ML_常见错误</a>
+          </li>
+        
+          <li>
+            <a href="/p/202101090/">在hexo的landscape主题下支持数学公式渲染</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Blog/">Blog</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/GameDev/">GameDev</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ML/">ML</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Modeling/">Modeling</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cpp/">cpp</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/disk/">disk</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js/">js</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/router/">router</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/server/">server</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a><span class="category-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/adb/" style="font-size: 13.33px;">adb</a> <a href="/tags/blender/" style="font-size: 13.33px;">blender</a> <a href="/tags/g/" style="font-size: 10px;">g++</a> <a href="/tags/git/" style="font-size: 13.33px;">git</a> <a href="/tags/godot/" style="font-size: 16.67px;">godot</a> <a href="/tags/gpg/" style="font-size: 10px;">gpg</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/paper/" style="font-size: 10px;">paper</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/pytorch/" style="font-size: 10px;">pytorch</a> <a href="/tags/server/" style="font-size: 10px;">server</a> <a href="/tags/trick/" style="font-size: 20px;">trick</a> <a href="/tags/vscode/" style="font-size: 10px;">vscode</a> <a href="/tags/yolo/" style="font-size: 10px;">yolo</a>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Eiuyc<br>
+	  Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+	  <div id="msg"></div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

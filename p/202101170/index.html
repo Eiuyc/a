@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>pytorch搭建CNN，单汉字数据集制作与训练记录 | Eiuyc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content=":)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pytorch搭建CNN，单汉字数据集制作与训练记录">
+<meta property="og:url" content="https://eiuyc.tk/p/202101170/index.html">
+<meta property="og:site_name" content="Eiuyc">
+<meta property="og:description" content=":)">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://eiuyc.tk/p/202101170/xin_ori.jpg">
+<meta property="og:image" content="https://eiuyc.tk/p/202101170/xin_bin.jpg">
+<meta property="og:image" content="https://eiuyc.tk/p/202101170/sample_ka.jpg">
+<meta property="og:image" content="https://eiuyc.tk/p/202101170/sample_hei.jpg">
+<meta property="og:image" content="https://eiuyc.tk/p/202101170/test.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202101170/test1.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202101170/test2.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202101170/test3.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202101170/test4.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202101170/test5.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202101170/test6.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202101170/test7.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202101170/test8.png">
+<meta property="og:image" content="https://eiuyc.tk/p/202101170/test9.png">
+<meta property="article:published_time" content="2021-01-17T13:30:03.000Z">
+<meta property="article:modified_time" content="2021-01-18T09:12:17.782Z">
+<meta property="article:author" content="Eiuyc">
+<meta property="article:tag" content="pytorch">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://eiuyc.tk/p/202101170/xin_ori.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Eiuyc" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/e.ico">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css" rel="stylesheet" type="text/css">
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://eiuyc.tk"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-cnn-single-chinese-word-recognition" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/p/202101170/" class="article-date">
+  <time class="dt-published" datetime="2021-01-17T13:30:03.000Z" itemprop="datePublished">2021-01-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/ML/">ML</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+		
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      pytorch搭建CNN，单汉字数据集制作与训练记录
+    </h1>
+  
+
+		<br>
+		<div style="height: 0.5px; background-color: rgb(230, 230, 230)"><div>
+	  </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>:)</p>
+<a id="more"></a>
+<h2 id="1-目标"><a class="markdownIt-Anchor" href="#1-目标"></a> 1. 目标</h2>
+<center>
+<table style="width:70%;text-align:center">
+  <tr>
+    <th width=40% style="text-align:center">原图</td>
+    <th width=40% style="text-align:center">二值图</td>
+    <th style="text-align:center">输出</td>
+  </tr>
+  <tr>
+    <td><img src="xin_ori.jpg" width=90% /></td>
+    <td><img src="xin_bin.jpg" width=90% /></td>
+    <td width=50>新</td>
+  </tr>
+</table>
+</center>
+将单个汉字的图片调整为128x128大小，并二值化，喂入网络后输出所预测的汉字字符。
+<h2 id="2-数据集"><a class="markdownIt-Anchor" href="#2-数据集"></a> 2. 数据集</h2>
+<p>随机生成脚本所用的字库为包含了<code>3755</code>个常用汉字的<code>一级字库</code>。字体为楷体<code>simka.ttf</code>和黑体<code>simhei.ttf</code><br />
+真实手写数据来自<code>HWDB数据集</code>，从中提取了<code>3727</code>个手写字</p>
+<h3 id="21-思路"><a class="markdownIt-Anchor" href="#21-思路"></a> 2.1. 思路</h3>
+<p>python脚本生成样本，实际的真实样本，都训练几次</p>
+<h3 id="22-样本与标签"><a class="markdownIt-Anchor" href="#22-样本与标签"></a> 2.2. 样本与标签</h3>
+<center>
+<table style="width:70%">
+  <tr>
+    <th width=20% style="text-align:center">项</td>
+    <th style="text-align:center">格式</td>
+  </tr>
+  <tr>
+    <td>样本</td>
+    <td>numpy二维数组，单通道，大小为128x128，背景为黑色的0，字的部分为白色的255，随机噪声与随机旋转</td>
+  </tr>
+  <tr>
+    <td>标签</td>
+    <td>整型，0~3754，按一级字库的顺序，取其索引</td>
+  </tr>
+</table>
+</center>
+<p>样本例子</p>
+<center>
+<table style="width:70%">
+  <tr>
+    <th width=50% style="text-align:center">诚-楷体</td>
+    <th style="text-align:center">诚-黑体</td>
+  </tr>
+  <tr>
+    <td><img src="sample_ka.jpg" width=90% /></td>
+    <td><img src="sample_hei.jpg" width=90% /></td>
+  </tr>
+</table>
+</center>
+<h3 id="23-数据集生成所用脚本部分代码说明"><a class="markdownIt-Anchor" href="#23-数据集生成所用脚本部分代码说明"></a> 2.3. 数据集生成所用脚本部分代码说明</h3>
+<p>一些版本号:</p>
+<center>
+<table style="width:70%">
+  <tr>
+    <th width=50%>项</td>
+    <th>版本</td>
+  </tr>
+  <tr>
+    <td>win10</td>
+    <td>1909</td>
+  </tr>
+  <tr>
+    <td>python</td>
+    <td>3.7.3</td>
+  </tr>
+  <tr>
+    <td>tensorflow</td>
+    <td>2.1.0</td>
+  </tr>
+  <tr>
+    <td>torch</td>
+    <td>1.7.1+cu110</td>
+  </tr>
+  <tr>
+    <td>Pillow</td>
+    <td>7.0.0</td>
+  </tr>
+  <tr>
+    <td>opencv-python</td>
+    <td>4.2.0.32</td>
+  </tr>
+  <tr>
+    <td>numpy</td>
+    <td>1.19.5</td>
+  </tr>
+</table>
+</center>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># utils.py</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> cv2, numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image, ImageDraw, ImageFont</span><br><span class="line"><span class="keyword">from</span> torchvision <span class="keyword">import</span> transforms</span><br><span class="line"></span><br><span class="line"><span class="comment"># 全局配置</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CFG</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># data_path中存放字体文件，保存一级字库的txt文件，CFG类通过data_path初始化通用的信息</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, data_path)</span>:</span></span><br><span class="line">        <span class="keyword">with</span> open(data_path+<span class="string">'3755.txt'</span>, <span class="string">'r'</span>, encoding=<span class="string">'utf-8'</span>) <span class="keyword">as</span> f:</span><br><span class="line">            self.ch_list = f.readline()</span><br><span class="line">        <span class="comment"># 'L'指定生成灰度图</span></span><br><span class="line">        self.COLOR_MODE = <span class="string">'L'</span></span><br><span class="line">        <span class="comment"># 背景相关配置</span></span><br><span class="line">        self.BG_SIZE = <span class="number">128</span></span><br><span class="line">        self.BG_COLOR = <span class="string">'black'</span></span><br><span class="line">        self.BG = np.array(Image.new(self.COLOR_MODE, (self.BG_SIZE,self.BG_SIZE), self.BG_COLOR))</span><br><span class="line">        <span class="comment"># 字体相关配置</span></span><br><span class="line">        self.FONT_NUM = <span class="number">2</span></span><br><span class="line">        self.FONT_PATHS = [data_path+<span class="string">'simka.ttf'</span>, data_path+<span class="string">'simhei.ttf'</span>]</span><br><span class="line">        self.FONT_SIZE = <span class="number">128</span></span><br><span class="line">        self.FONT_ENCODING = <span class="string">'unic'</span> <span class="comment">#'bg2312'</span></span><br><span class="line">        self.FONTS = [</span><br><span class="line">            ImageFont.truetype(self.FONT_PATHS[<span class="number">0</span>], self.FONT_SIZE, encoding=self.FONT_ENCODING),</span><br><span class="line">            ImageFont.truetype(self.FONT_PATHS[<span class="number">1</span>], self.FONT_SIZE, encoding=self.FONT_ENCODING)</span><br><span class="line">        ]</span><br><span class="line">        <span class="comment"># Draw写入汉字时的相关配置</span></span><br><span class="line">        self.TEXT_COLOR = <span class="string">'white'</span></span><br><span class="line">        self.TEXT_LOCATION = (<span class="number">0</span>,<span class="number">0</span>)</span><br><span class="line">        <span class="comment"># 字体旋转角度</span></span><br><span class="line">        self.ROTATE_ANGLES = [<span class="number">-5</span>, <span class="number">-3</span>, <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 在测试时，需要读取图片并转换为二值图</span></span><br><span class="line">        <span class="comment"># 该值表示提取图片上[0,BLACK_THRESHOLD]范围内的黑色</span></span><br><span class="line">        self.BLACK_THRESHOLD = <span class="number">40</span></span><br><span class="line">        <span class="comment"># 在测试时，需要对图像进行一系列操作</span></span><br><span class="line">        self.T = transforms.Compose([</span><br><span class="line">            transforms.Resize(<span class="number">128</span>),</span><br><span class="line">            transforms.ToTensor(),</span><br><span class="line">            transforms.Normalize(mean=[<span class="number">.5</span>], std=[<span class="number">.5</span>]) </span><br><span class="line">        ])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 工具类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tools</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, data_path)</span>:</span></span><br><span class="line">        self.cfg = CFG(data_path)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 随机获取字体</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_font</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.cfg.FONTS[np.random.randint(self.cfg.FONT_NUM)]</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 随机噪点</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">make_noise</span><span class="params">(self, img)</span>:</span></span><br><span class="line">        noise = np.random.randint(<span class="number">0</span>,<span class="number">256</span>,(self.cfg.BG_SIZE,self.cfg.BG_SIZE))</span><br><span class="line">        _, noise = cv2.threshold(noise.astype(<span class="string">'uint8'</span>), <span class="number">240</span>, <span class="number">255</span>, cv2.THRESH_BINARY)</span><br><span class="line">        img += noise</span><br><span class="line">        <span class="keyword">return</span> img</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 随机旋转</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">transform</span><span class="params">(self, img)</span>:</span></span><br><span class="line">        h, w = img.shape</span><br><span class="line">        m = cv2.getRotationMatrix2D((h*<span class="number">0.5</span>,w*<span class="number">0.5</span>), np.random.choice(self.cfg.ROTATE_ANGLES), <span class="number">1</span>)</span><br><span class="line">        img = cv2.warpAffine(img, m, (h, w))</span><br><span class="line">        <span class="keyword">return</span> img</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 随机取得样本，二值图，黑底白字，128x128，label为整型</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_sample</span><span class="params">(self, random=True)</span>:</span></span><br><span class="line">        label = np.random.randint(len(self.cfg.ch_list))</span><br><span class="line">        img = Image.fromarray(self.cfg.BG)</span><br><span class="line">        draw = ImageDraw.Draw(img)</span><br><span class="line">        draw.text(self.cfg.TEXT_LOCATION, self.cfg.ch_list[label], font=self.get_font() <span class="keyword">if</span> random <span class="keyword">else</span> self.cfg.FONTS[<span class="number">0</span>], fill=self.cfg.TEXT_COLOR)</span><br><span class="line">        img = np.array(img)</span><br><span class="line">        <span class="keyword">if</span> random:</span><br><span class="line">            img = self.transform(img)</span><br><span class="line">            img = self.make_noise(img)</span><br><span class="line">        <span class="keyword">return</span> Image.fromarray(img), label</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 随机从目录下取得样本，二值图，黑底白字，128x128，label为整型</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_real_sample</span><span class="params">(self, random=True, real_dir=None)</span>:</span></span><br><span class="line">        img_names = os.listdir(real_dir)</span><br><span class="line">        img_name = np.random.choice(img_names)</span><br><span class="line">        ch = img_name[<span class="number">0</span>]</span><br><span class="line">        label = self.cfg.ch_list.index(ch)</span><br><span class="line"></span><br><span class="line">        img = Image.open(real_dir+img_name)</span><br><span class="line">        img = np.array(img)</span><br><span class="line">        img = self.get_binary_img(img)</span><br><span class="line">        <span class="keyword">if</span> random:</span><br><span class="line">            img = self.transform(img)</span><br><span class="line">            img = self.make_noise(img)</span><br><span class="line">        <span class="keyword">return</span> Image.fromarray(img), label</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 将白底黑字的图片转换为黑底白字</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_binary_img</span><span class="params">(self, img)</span>:</span></span><br><span class="line">        gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)</span><br><span class="line">        gray = cv2.equalizeHist(gray)</span><br><span class="line"></span><br><span class="line">        th = gray.min()+self.cfg.BLACK_THRESHOLD</span><br><span class="line">        _, mask = cv2.threshold(gray, th, <span class="number">255</span>, cv2.THRESH_BINARY_INV)</span><br><span class="line"></span><br><span class="line">        img = cv2.resize(mask, (self.cfg.BG_SIZE, self.cfg.BG_SIZE))</span><br><span class="line">        <span class="keyword">return</span> img</span><br><span class="line">    <span class="comment"># 获取一个汉字字符ch的楷体模板</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_normal</span><span class="params">(self, ch, color, bg_color)</span>:</span></span><br><span class="line">        img = Image.new(<span class="string">'RGB'</span>, (self.cfg.BG_SIZE,self.cfg.BG_SIZE), bg_color)</span><br><span class="line">        draw = ImageDraw.Draw(img)</span><br><span class="line">        draw.text(self.cfg.TEXT_LOCATION, ch, font=self.cfg.FONTS[<span class="number">0</span>], fill=color)</span><br><span class="line">        <span class="keyword">return</span> img</span><br><span class="line">    <span class="comment"># 根据汉字字符ch计算图片src的得分</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_score</span><span class="params">(self, src, ch)</span>:</span></span><br><span class="line">        _, _src = cv2.threshold(src, <span class="number">200</span>, <span class="number">1</span>, cv2.THRESH_BINARY)</span><br><span class="line">        norm = self.get_normal(ch, <span class="string">'white'</span>, <span class="string">'black'</span>)</span><br><span class="line">        norm = cv2.cvtColor(np.array(norm), cv2.COLOR_RGB2GRAY)</span><br><span class="line">        _, _norm = cv2.threshold(norm, <span class="number">200</span>, <span class="number">1</span>, cv2.THRESH_BINARY)</span><br><span class="line">        _total = _src + _norm</span><br><span class="line">        _match = _src * _norm</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 取消注释以在jupyter notebook中显示中间过程图片</span></span><br><span class="line">        <span class="comment"># 需要 from IPython.display import display</span></span><br><span class="line">        <span class="comment"># _, total = cv2.threshold(_total, 0, 255, cv2.THRESH_BINARY)</span></span><br><span class="line">        <span class="comment"># _, match = cv2.threshold(_match, 0, 255, cv2.THRESH_BINARY)</span></span><br><span class="line">        <span class="comment"># display(Image.fromarray(src), Image.fromarray(norm))</span></span><br><span class="line">        <span class="comment"># display(Image.fromarray(total), Image.fromarray(match))</span></span><br><span class="line">        </span><br><span class="line">        m = _match &gt; <span class="number">0</span></span><br><span class="line">        t = _total &gt; <span class="number">0</span></span><br><span class="line">        score = m.sum() / t.sum()</span><br><span class="line">        <span class="keyword">return</span> score</span><br><span class="line">    <span class="comment"># 对img_path所指向的单字图片进行评估，返回得分，以及一个印有红色楷体模板背景的图片</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">evaluate_word</span><span class="params">(self, img_path, model)</span>:</span></span><br><span class="line">        <span class="comment"># get ori</span></span><br><span class="line">        <span class="keyword">if</span> img_path <span class="keyword">is</span> str: ori = Image.open(img_path).convert(<span class="string">'RGB'</span>)</span><br><span class="line">        <span class="keyword">else</span>: ori = img_path</span><br><span class="line">        ori = np.array(ori)</span><br><span class="line">        ori = cv2.resize(ori, (self.cfg.BG_SIZE,self.cfg.BG_SIZE))</span><br><span class="line">        <span class="comment"># get scr</span></span><br><span class="line">        src = self.get_binary_img(ori)</span><br><span class="line">        <span class="comment"># get predicted char</span></span><br><span class="line">        img = self.T(Image.fromarray(src))</span><br><span class="line">        predict = model(img.reshape(<span class="number">1</span>,<span class="number">1</span>,self.cfg.BG_SIZE,self.cfg.BG_SIZE))</span><br><span class="line">        index = predict.argmax()</span><br><span class="line">        ch = self.cfg.ch_list[index]</span><br><span class="line">        <span class="comment"># get score</span></span><br><span class="line">        score = self.get_score(src, ch)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># create normal</span></span><br><span class="line">        normal = self.get_normal(ch, <span class="string">'red'</span>, <span class="string">'white'</span>)</span><br><span class="line">        normal = np.array(normal)</span><br><span class="line">        <span class="comment"># get visual result</span></span><br><span class="line">        result = Image.fromarray(cv2.addWeighted(normal, <span class="number">0.2</span>, ori, <span class="number">0.8</span>, <span class="number">0</span>))</span><br><span class="line">        <span class="keyword">return</span> score, result</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># dataset.py</span></span><br><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> Dataset</span><br><span class="line"><span class="keyword">from</span> torchvision <span class="keyword">import</span> transforms</span><br><span class="line"></span><br><span class="line"><span class="comment"># 随机生成样本 或 随机从目录real_dir下读取样本</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Single_word</span><span class="params">(Dataset)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, length, real_dir=None)</span>:</span></span><br><span class="line">        self.len = length</span><br><span class="line">        self.transfrom = transforms.Compose([</span><br><span class="line">            transforms.Resize(<span class="number">128</span>),</span><br><span class="line">            transforms.ToTensor(),</span><br><span class="line">            transforms.Normalize(mean=[<span class="number">.5</span>], std=[<span class="number">.5</span>]) </span><br><span class="line">        ])</span><br><span class="line">        self.real_dir = real_dir</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.len</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self, idx)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> self.real_dir:</span><br><span class="line">            image, label = get_sample()</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            image, label = get_real_sample(real_dir=self.real_dir)</span><br><span class="line">        image = self.transfrom(image)</span><br><span class="line">        label = torch.from_numpy(np.array(label))</span><br><span class="line">        <span class="keyword">return</span> image, label</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">evaluate</span><span class="params">(self, model=None, total=<span class="number">1000</span>)</span>:</span></span><br><span class="line">        cnt = <span class="number">0</span></span><br><span class="line">        total = int(abs(total))</span><br><span class="line">        i = total</span><br><span class="line">        <span class="keyword">while</span> i:</span><br><span class="line">            i -= <span class="number">1</span></span><br><span class="line">            image, label = self.__getitem__(<span class="number">0</span>)</span><br><span class="line">            predict = model(image.reshape(<span class="number">1</span>,<span class="number">1</span>,cfg.BG_SIZE,cfg.BG_SIZE))</span><br><span class="line">            index = predict.argmax()</span><br><span class="line">            <span class="keyword">if</span> index == label: cnt+=<span class="number">1</span></span><br><span class="line">        print(<span class="string">f'Tested with <span class="subst">&#123;total&#125;</span> images.\nPrecision is <span class="subst">&#123;<span class="number">100</span>*cnt/total :<span class="number">.2</span>f&#125;</span>%'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_img</span><span class="params">(self, model=None, img_path=None)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> img_path:</span><br><span class="line">            img = Image.open(img_path)</span><br><span class="line">            img = np.array(img)</span><br><span class="line">            img = get_binary_img(img)</span><br><span class="line">            img = Image.fromarray(img)</span><br><span class="line">            img = self.transfrom(img)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            img, _ = self.__getitem__(<span class="number">0</span>)</span><br><span class="line">        predict = model(img.reshape(<span class="number">1</span>,<span class="number">1</span>,cfg.BG_SIZE,cfg.BG_SIZE))</span><br><span class="line">        index = predict.argmax()</span><br><span class="line">        print(<span class="string">'Predicted as '</span> + ch_list[index])</span><br><span class="line">        image = img.clone()  <span class="comment"># clone the tensor</span></span><br><span class="line">        image = image.squeeze(<span class="number">0</span>)  <span class="comment"># remove the fake batch dimension</span></span><br><span class="line">        image = show(image)</span><br><span class="line">        display(image)</span><br><span class="line">        <span class="keyword">return</span> image</span><br><span class="line"></span><br><span class="line"><span class="comment"># 从path下读取样本，标签为每一个样本的文件名的第一个字符</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Real_word</span><span class="params">(Dataset)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, path)</span>:</span></span><br><span class="line">        self.path = path</span><br><span class="line">        self.transfrom = transforms.Compose([</span><br><span class="line">            transforms.Resize(<span class="number">128</span>),</span><br><span class="line">            transforms.ToTensor(),</span><br><span class="line">            transforms.Normalize(mean=[<span class="number">.5</span>], std=[<span class="number">.5</span>]) </span><br><span class="line">        ])</span><br><span class="line">        self.img_names = os.listdir(path)</span><br><span class="line">        self.len = len(self.img_names)</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.len</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self, idx)</span>:</span></span><br><span class="line">        img = Image.open(self.path+self.img_names[idx])</span><br><span class="line">        img = np.array(img)</span><br><span class="line">        img = get_binary_img(img)</span><br><span class="line">        img = make_noise(img)</span><br><span class="line">        img = Image.fromarray(img)</span><br><span class="line">        image = self.transfrom(img)</span><br><span class="line">        label = ch_list.index(self.img_names[idx][<span class="number">0</span>])</span><br><span class="line">        label = torch.from_numpy(np.array(label))</span><br><span class="line">        <span class="keyword">return</span> image, label</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">evaluate</span><span class="params">(self, model=None)</span>:</span></span><br><span class="line">        cnt = <span class="number">0</span></span><br><span class="line">        total = self.len</span><br><span class="line">        i = total</span><br><span class="line">        <span class="keyword">while</span> i:</span><br><span class="line">            i -= <span class="number">1</span></span><br><span class="line">            image, label = self.__getitem__(i)</span><br><span class="line">            predict = model(image.reshape(<span class="number">1</span>,<span class="number">1</span>,cfg.BG_SIZE,cfg.BG_SIZE))</span><br><span class="line">            index = predict.argmax()</span><br><span class="line">            <span class="keyword">if</span> index == label: cnt+=<span class="number">1</span></span><br><span class="line">        print(<span class="string">f'Tested with <span class="subst">&#123;total&#125;</span> images.\nPrecision is <span class="subst">&#123;<span class="number">100</span>*cnt/total :<span class="number">.2</span>f&#125;</span>%'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_img</span><span class="params">(self, model=None, img_path=None)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> img_path:</span><br><span class="line">            img = Image.open(img_path)</span><br><span class="line">            img = np.array(img)</span><br><span class="line">            img = get_binary_img(img)</span><br><span class="line">            img = Image.fromarray(img)</span><br><span class="line">            img = self.transfrom(img)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            img, _ = self.__getitem__(np.random.randint(self.len))</span><br><span class="line">        predict = model(img.reshape(<span class="number">1</span>,<span class="number">1</span>,cfg.BG_SIZE,cfg.BG_SIZE))</span><br><span class="line">        index = predict.argmax()</span><br><span class="line">        print(<span class="string">'Predicted as '</span> + ch_list[index])</span><br><span class="line">        image = img.clone()  <span class="comment"># clone the tensor</span></span><br><span class="line">        image = image.squeeze(<span class="number">0</span>)  <span class="comment"># remove the fake batch dimension</span></span><br><span class="line">        image = show(image)</span><br><span class="line">        display(image)</span><br><span class="line">        <span class="keyword">return</span> image</span><br></pre></td></tr></table></figure>
+<h3 id="3-cnn网络"><a class="markdownIt-Anchor" href="#3-cnn网络"></a> 3. CNN网络</h3>
+<p>关于卷积层的输出大小的计算，实际上是看能分出多少个步长。<br />
+但是，倘若最后一个步长所对应的位置不够放下一个卷积核，这个位置就应该舍弃</p>
+<p>所以，先取出最后一段能够放下一个卷积核的长度，这导致了公式中的’-k’和’+1’<br />
+然后看剩下的长度能分出几个步长</p>
+<center>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>o</mi><mi>u</mi><mi>t</mi><mo>=</mo><mfrac><mrow><mo stretchy="false">(</mo><mi>i</mi><mi>n</mi><mo>+</mo><mn>2</mn><mi>p</mi><mo>−</mo><mi>k</mi><mo stretchy="false">)</mo></mrow><mi>s</mi></mfrac><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">out = \frac{(in+2p-k)}s + 1
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord mathdefault">o</span><span class="mord mathdefault">u</span><span class="mord mathdefault">t</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.113em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.427em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathdefault">s</span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mopen">(</span><span class="mord mathdefault">i</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">2</span><span class="mord mathdefault">p</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span></span></p>
+</center>
+<p>倘若需要same padding<br />
+有</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi><mo>=</mo><mfrac><mrow><mo stretchy="false">(</mo><mi>x</mi><mo>+</mo><mn>2</mn><mi>p</mi><mo>−</mo><mi>k</mi><mo stretchy="false">)</mo></mrow><mi>s</mi></mfrac><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">x = \frac{(x+2p-k)}s + 1
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.113em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.427em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathdefault">s</span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">2</span><span class="mord mathdefault">p</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span></span></p>
+<p>得</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi><mi>s</mi><mo>=</mo><mi>x</mi><mo>+</mo><mn>2</mn><mi>p</mi><mo>−</mo><mi>k</mi><mo>+</mo><mi>s</mi><mspace linebreak="newline"></mspace><mi>p</mi><mo>=</mo><mfrac><mrow><mi>x</mi><mo stretchy="false">(</mo><mi>s</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo><mo>+</mo><mi>k</mi><mo>−</mo><mi>s</mi></mrow><mn>2</mn></mfrac></mrow><annotation encoding="application/x-tex">xs = x+2p-k + s \\
+p = \frac{x(s-1)+k-s}2
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span><span class="mord mathdefault">s</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8388800000000001em;vertical-align:-0.19444em;"></span><span class="mord">2</span><span class="mord mathdefault">p</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">s</span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">p</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.113em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.427em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord">2</span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="mopen">(</span><span class="mord mathdefault">s</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathdefault">s</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
+<p>当 s=1 时<br />
+有</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>p</mi><mo>=</mo><mfrac><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow><mn>2</mn></mfrac></mrow><annotation encoding="application/x-tex">p = \frac{k-1}2
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">p</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.05744em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.37144em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord">2</span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
+<p>当 k 为 偶数时就有问题了</p>
+<p>假设 k=4<br />
+那么 p 应当取 1.5<br />
+然而 p 为 int<br />
+则向下取整 p=1<br />
+由</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mtable rowspacing="0.24999999999999992em" columnalign="right left" columnspacing="0em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mi>o</mi><mi>u</mi><mi>t</mi><mo>=</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mo stretchy="false">(</mo><mi>i</mi><mi>n</mi><mo>+</mo><mn>2</mn><mo>−</mo><mn>4</mn><mo stretchy="false">)</mo><mo>+</mo><mn>1</mn></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mo>=</mo></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mi>i</mi><mi>n</mi><mo>−</mo><mn>1</mn></mrow></mstyle></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned}
+out = &amp;(in+2-4)+1 \\
+    = &amp;in - 1
+\end{aligned}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:3.0000000000000004em;vertical-align:-1.2500000000000002em;"></span><span class="mord"><span class="mtable"><span class="col-align-r"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.7500000000000002em;"><span style="top:-3.91em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault">o</span><span class="mord mathdefault">u</span><span class="mord mathdefault">t</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span></span></span><span style="top:-2.41em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mrel">=</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.2500000000000002em;"><span></span></span></span></span></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.7500000000000002em;"><span style="top:-3.91em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mopen">(</span><span class="mord mathdefault">i</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">4</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">1</span></span></span><span style="top:-2.41em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mord mathdefault">i</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.2500000000000002em;"><span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p>此时 应当再补一行，一列</p>
+<p>tensorflow貌似是在最右添加一列，在最下添加一行</p>
+<p>为了方便，想要在pytorch中达到same padding<br />
+若 s = 1，那么 k 建议取奇数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cnn_net.py</span></span><br><span class="line"><span class="comment"># 基础的CNN+FC</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Net</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super(Net, self).__init__()</span><br><span class="line">        <span class="comment"># 输入1通道，输出6通道，卷积核大小为5x5，stride默认为1</span></span><br><span class="line">        <span class="comment"># padding=2可以使输出的大小与输入相同</span></span><br><span class="line">        self.conv1 = nn.Conv2d(<span class="number">1</span>, <span class="number">6</span>, <span class="number">5</span>, padding=<span class="number">2</span>)</span><br><span class="line">        self.conv2 = nn.Conv2d(<span class="number">6</span>, <span class="number">16</span>, <span class="number">5</span>, padding=<span class="number">2</span>)</span><br><span class="line">        self.conv3 = nn.Conv2d(<span class="number">16</span>, <span class="number">32</span>, <span class="number">5</span>, padding=<span class="number">2</span>)</span><br><span class="line">        self.pool = nn.MaxPool2d(<span class="number">2</span>, <span class="number">2</span>)</span><br><span class="line">        self.fc1 = nn.Linear(<span class="number">32</span> * <span class="number">16</span>*<span class="number">16</span>, <span class="number">1200</span>)</span><br><span class="line">        self.fc2 = nn.Linear(<span class="number">1200</span>, <span class="number">3755</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        x = self.pool(F.relu(self.conv1(x))) <span class="comment"># 128 -&gt; 128 -&gt; 64</span></span><br><span class="line">        x = self.pool(F.relu(self.conv2(x))) <span class="comment"># 64 -&gt; 64 -&gt; 32</span></span><br><span class="line">        x = self.pool(F.relu(self.conv3(x))) <span class="comment"># 32 -&gt; 32 -&gt; 16</span></span><br><span class="line">        x = x.view(<span class="number">-1</span>, <span class="number">32</span> * <span class="number">16</span>*<span class="number">16</span>)</span><br><span class="line">        x = F.relu(self.fc1(x))</span><br><span class="line">        x = self.fc2(x)</span><br><span class="line">        <span class="keyword">return</span> x</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">net = Net()</span><br><span class="line">criterion = nn.CrossEntropyLoss()</span><br><span class="line">optimizer = optim.SGD(net.parameters(), lr=<span class="number">0.001</span>, momentum=<span class="number">0.9</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="4-训练"><a class="markdownIt-Anchor" href="#4-训练"></a> 4. 训练</h3>
+<p>有三种加载数据的方式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 随机样本</span></span><br><span class="line">dataset = Single_word(<span class="number">5000</span>)</span><br><span class="line"><span class="comment"># 随机从目录real_dir下读取样本</span></span><br><span class="line">dataset = Single_word(<span class="number">5000</span>, real_dir=<span class="string">'imgs/real/'</span>)</span><br><span class="line"><span class="comment"># 以path下的图片为数据集</span></span><br><span class="line">dataset_real = Real_word(path=<span class="string">'imgs/real/'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 根据数据集创建Dataloader</span></span><br><span class="line">dataloader = DataLoader(dataset, batch_size=<span class="number">8</span>, shuffle=<span class="literal">True</span>, num_workers=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p>训练：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">    <span class="keyword">for</span> i, data <span class="keyword">in</span> enumerate(dataloader):</span><br><span class="line">        <span class="comment"># data：[4x1x32x32, 4]</span></span><br><span class="line">        inputs, labels = data</span><br><span class="line">        <span class="comment"># 从tensor转为variable</span></span><br><span class="line">        inputs, labels = Variable(inputs), Variable(labels)</span><br><span class="line">        <span class="comment"># 将参数梯度归零</span></span><br><span class="line">        optimizer.zero_grad()</span><br><span class="line">        <span class="comment"># 前向传播</span></span><br><span class="line">        outputs = net(inputs)</span><br><span class="line">        labels = labels.long()</span><br><span class="line">        <span class="comment"># 交叉熵计算损失</span></span><br><span class="line">        loss = criterion(outputs, labels)</span><br><span class="line">        <span class="comment"># 反向传播</span></span><br><span class="line">        loss.backward()</span><br><span class="line">        <span class="comment"># 更新参数</span></span><br><span class="line">        optimizer.step()</span><br><span class="line">        <span class="comment"># 每2000批随机测试</span></span><br><span class="line">        <span class="comment"># test_img使用了Ipython.display中的display</span></span><br><span class="line">        <span class="comment"># 在jupyter notebook中可以显示测试图片</span></span><br><span class="line">        <span class="keyword">if</span> i % <span class="number">2000</span> == <span class="number">0</span>:</span><br><span class="line">            dataset.test_img(net)</span><br><span class="line">            dataset_real.test_img(net, dataset_real.path+np.random.choice(dataset_real.img_names))</span><br><span class="line">    print(<span class="string">f'epoch: <span class="subst">&#123;epoch&#125;</span>'</span>)</span><br><span class="line">print(<span class="string">'Finished Training'</span>)</span><br></pre></td></tr></table></figure>
+<p>20轮随机生成样本，10轮来自<code>HWDB数据集</code>的<code>3727</code>个手写字，另外还有3轮截自网络图片的76个手写字</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#保存模型</span></span><br><span class="line">torch.save(net, <span class="string">'models/CNN_model_5000_20e_3727_10e_76_3e.pt'</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="5加载模型并测试"><a class="markdownIt-Anchor" href="#5加载模型并测试"></a> 5.加载模型并测试</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">model = torch.load(<span class="string">'models/CNN_model_5000_20e_3727_10e_76_3e.pt'</span>)</span><br><span class="line">dataset.evaluate(model,<span class="number">1000</span>)</span><br><span class="line">dataset_real.evaluate(model)</span><br></pre></td></tr></table></figure>
+<p>输出</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Tested with 1000 images.</span><br><span class="line">Precision is 93.10%</span><br><span class="line">Tested with 3727 images.</span><br><span class="line">Precision is 83.82%</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">img_dir = <span class="string">'imgs/real/'</span></span><br><span class="line">imgs_list = os.listdir(img_dir)</span><br><span class="line"><span class="comment"># img_name = np.random.choice(imgs_list)</span></span><br><span class="line">img_name = <span class="string">'新.jpg'</span></span><br><span class="line">img_path = img_dir+img_name</span><br><span class="line">label = ch_list.index(img_name[<span class="number">0</span>])</span><br><span class="line">print(<span class="string">'label:'</span>,label)</span><br><span class="line">img_gray = dataset_real.test_img(model, img_path)</span><br></pre></td></tr></table></figure>
+<p>输出</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">label: 3041</span><br><span class="line">Predicted as 新</span><br></pre></td></tr></table></figure>
+<p>可视化：</p>
+<table>
+  <tr>
+    <td><img src="test.png" width=200></td>
+    <td><img src="test1.png" width=200></td>
+    <td><img src="test2.png" width=200></td>
+    <td><img src="test3.png" width=200></td>
+    <td><img src="test4.png" width=200></td>
+  </tr>
+  <tr>
+    <td><img src="test5.png" width=200></td>
+    <td><img src="test6.png" width=200></td>
+    <td><img src="test7.png" width=200></td>
+    <td><img src="test8.png" width=200></td>
+    <td><img src="test9.png" width=200></td>
+  </tr>
+</table>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://eiuyc.tk/p/202101170/" data-id="ckk1yxr4m0000vsfkba715hwd" data-title="pytorch搭建CNN，单汉字数据集制作与训练记录" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pytorch/" rel="tag">pytorch</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/p/202101150/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">YOLO自定义数据集制作与训练记录</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/p/202101170/">pytorch搭建CNN，单汉字数据集制作与训练记录</a>
+          </li>
+        
+          <li>
+            <a href="/p/202101150/">YOLO自定义数据集制作与训练记录</a>
+          </li>
+        
+          <li>
+            <a href="/p/202101111/">vscode更新会重置其目录下的其它文件</a>
+          </li>
+        
+          <li>
+            <a href="/p/202101110/">ML_常见错误</a>
+          </li>
+        
+          <li>
+            <a href="/p/202101090/">在hexo的landscape主题下支持数学公式渲染</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Blog/">Blog</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/GameDev/">GameDev</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ML/">ML</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Modeling/">Modeling</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cpp/">cpp</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/disk/">disk</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js/">js</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/router/">router</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/server/">server</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a><span class="category-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/adb/" style="font-size: 13.33px;">adb</a> <a href="/tags/blender/" style="font-size: 13.33px;">blender</a> <a href="/tags/g/" style="font-size: 10px;">g++</a> <a href="/tags/git/" style="font-size: 13.33px;">git</a> <a href="/tags/godot/" style="font-size: 16.67px;">godot</a> <a href="/tags/gpg/" style="font-size: 10px;">gpg</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/paper/" style="font-size: 10px;">paper</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/pytorch/" style="font-size: 10px;">pytorch</a> <a href="/tags/server/" style="font-size: 10px;">server</a> <a href="/tags/trick/" style="font-size: 20px;">trick</a> <a href="/tags/vscode/" style="font-size: 10px;">vscode</a> <a href="/tags/yolo/" style="font-size: 10px;">yolo</a>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 Eiuyc<br>
+	  Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+	  <div id="msg"></div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
