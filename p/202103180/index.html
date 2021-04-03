@@ -4,14 +4,21 @@
   <meta charset="utf-8">
   
   
-  <title>归档: 2021 | Eiuyc</title>
+  <title>图像base64编解码 | Eiuyc</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Eiuyc">
-<meta property="og:url" content="https://eiuyc.tk/archives/2021/index.html">
+  <meta name="description" content=":)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图像base64编解码">
+<meta property="og:url" content="https://eiuyc.tk/p/202103180/index.html">
 <meta property="og:site_name" content="Eiuyc">
+<meta property="og:description" content=":)">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-18T11:03:57.000Z">
+<meta property="article:modified_time" content="2021-04-02T11:55:09.126Z">
 <meta property="article:author" content="Eiuyc">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="json">
+<meta property="article:tag" content="base64">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="Eiuyc" type="application/atom+xml">
@@ -68,210 +75,91 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/p/202104030/" class="archive-article-date">
-  <time class="dt-published" datetime="2021-04-03T05:12:48.000Z" itemprop="datePublished">4月 3</time>
+        <section id="main"><article id="post-base64-json" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/p/202103180/" class="article-date">
+  <time class="dt-published" datetime="2021-03-18T11:03:57.000Z" itemprop="datePublished">2021-03-18</time>
 </a>
-      
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/server/">server</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+		
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/p/202104030/">frp 配置</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      图像base64编解码
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+		<br>
+		<div style="height: 0.5px; background-color: rgb(230, 230, 230)"><div>
+	  </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/p/202103180/" class="archive-article-date">
-  <time class="dt-published" datetime="2021-03-18T11:03:57.000Z" itemprop="datePublished">3月 18</time>
-</a>
+    <div class="e-content article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/p/202103180/">图像base64编解码</a>
-    </h1>
-  
+        <p>:)</p>
+<a id="more"></a>
+<p>这是一个numpy.ndarray数组，表示一张1920x1080的图片</p>
+<p><em>numpy.ndarray数组不能之间转换为json格式的字符串</em></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">array([[[ <span class="number">46</span>,  <span class="number">48</span>,  <span class="number">42</span>],</span><br><span class="line">        [ <span class="number">46</span>,  <span class="number">48</span>,  <span class="number">42</span>],</span><br><span class="line">        [ <span class="number">46</span>,  <span class="number">48</span>,  <span class="number">42</span>],</span><br><span class="line">        ...,</span><br><span class="line">        [<span class="number">109</span>, <span class="number">104</span>, <span class="number">101</span>],</span><br><span class="line">        [<span class="number">109</span>, <span class="number">104</span>, <span class="number">101</span>],</span><br><span class="line">        [<span class="number">109</span>, <span class="number">104</span>, <span class="number">101</span>]]], dtype=uint8)</span><br></pre></td></tr></table></figure>
+<p>把它转换为符合图片格式的流数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_, img = cv2.imencode(<span class="string">'.jpg'</span>, array) <span class="comment"># ndarray -&gt; image</span></span><br></pre></td></tr></table></figure>
+<p>将流数据编码为base64形式的字符串</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line">img_s = str(base64.b64encode(img), encoding=<span class="string">'utf-8'</span>)</span><br></pre></td></tr></table></figure>
+<p>现在图片可以存入字典，被转换为json格式的字符串了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line">string_data = json.dumps(data)</span><br></pre></td></tr></table></figure>
+<p>通过json可以把数据从字符串恢复成字典</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line">data = json.loads(string_data)</span><br></pre></td></tr></table></figure>
+<hr />
+<p>这是一个base64形式的字符串的开头部分，来自于一张1920x1080的图片</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;9j&#x2F;4AAQSkZJRgABAQAAAQABAAD&#x2F;2wBDAAIBAQEBAQIBAQECAgICAgQDAgICAgUEBAMEBgUGBgYFBgYGBwkIBgcJBwYGCAsICQoKCgoKBggLDAsKDAkKCgr&#x2F;2wBDAQICAgICAgUDAwUKBwYHCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgr&#x2F;wAARCAQ4B4ADASIAAhEBAxEB&#x2F;8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL&#x2F;</span><br></pre></td></tr></table></figure>
+<p>通过base64解码把它转换为字节流</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line">img_b = base64.b64decode(img_s)</span><br></pre></td></tr></table></figure>
+<p>将数据写入文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">with open(&#39;a.jpg&#39;, &#39;wb&#39;) as f:</span><br><span class="line">    f.write(img_b)</span><br></pre></td></tr></table></figure>
+<p>或者转换为numpy.ndarray数组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">np_data &#x3D; np.frombuffer(img_b, np.uint8)</span><br><span class="line">img_cv &#x3D; cv2.imdecode(np_data, cv2.IMREAD_COLOR)</span><br><span class="line">cv2.imwrite(&#39;a.jpg&#39;,img_cv)</span><br></pre></td></tr></table></figure>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/p/202102120/" class="archive-article-date">
-  <time class="dt-published" datetime="2021-02-12T08:35:03.000Z" itemprop="datePublished">2月 12</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/p/202102120/">使用pyQt实现的yolov5数据集标注工具</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/p/202101170/" class="archive-article-date">
-  <time class="dt-published" datetime="2021-01-17T13:30:03.000Z" itemprop="datePublished">1月 17</time>
-</a>
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://eiuyc.tk/p/202103180/" data-id="ckn1dfirw0000u0fkamhue2x2" data-title="图像base64编解码" class="article-share-link">分享</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/p/202101170/">pytorch搭建CNN，单汉字数据集制作与训练记录</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/p/202101150/" class="archive-article-date">
-  <time class="dt-published" datetime="2021-01-15T03:48:44.000Z" itemprop="datePublished">1月 15</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/p/202101150/">YOLO自定义数据集制作与训练记录</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/p/202101111/" class="archive-article-date">
-  <time class="dt-published" datetime="2021-01-11T12:22:36.000Z" itemprop="datePublished">1月 11</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/p/202101111/">vscode更新会重置其目录下的其它文件</a>
-    </h1>
-  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/base64/" rel="tag">base64</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/json/" rel="tag">json</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
 
-    </header>
+    </footer>
   </div>
-</article>
   
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/p/202101110/" class="archive-article-date">
-  <time class="dt-published" datetime="2021-01-11T06:23:04.000Z" itemprop="datePublished">1月 11</time>
-</a>
-      
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/p/202101110/">ML_常见错误</a>
-    </h1>
+    <a href="/p/202104030/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          frp 配置
+        
+      </div>
+    </a>
   
+  
+    <a href="/p/202102120/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">使用pyQt实现的yolov5数据集标注工具</div>
+    </a>
+  
+</nav>
 
-    </header>
-  </div>
+  
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/p/202101090/" class="archive-article-date">
-  <time class="dt-published" datetime="2021-01-09T06:23:34.000Z" itemprop="datePublished">1月 9</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/p/202101090/">在hexo的landscape主题下支持数学公式渲染</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/p/202101080/" class="archive-article-date">
-  <time class="dt-published" datetime="2021-01-08T07:15:44.000Z" itemprop="datePublished">1月 8</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/p/202101080/">yowo论文阅读笔记</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/p/202101060/" class="archive-article-date">
-  <time class="dt-published" datetime="2021-01-06T02:06:09.000Z" itemprop="datePublished">1月 6</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/p/202101060/">YOWO项目-记录</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
 
 
 </section>
