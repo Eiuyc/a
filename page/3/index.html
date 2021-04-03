@@ -98,19 +98,12 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <a id="more"></a>
-<p>使用百度搜索的时候 常会看到这种情形<br />
-<img src="csnd_example.png" alt="" /></p>
-<p>点进去一看 一时半会儿还找不到</p>
-<p>搜索一下<br />
-<img src="csnd_example2.png" alt="" /></p>
-<p>发现被骗了</p>
-<p>果断在油猴写个脚本</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">window</span>.onload=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> l = <span class="built_in">document</span>.getElementsByClassName(<span class="string">"c-abstract"</span>);</span><br><span class="line">        <span class="keyword">var</span> c = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;l.length;++i)&#123;</span><br><span class="line">            <span class="keyword">var</span> index = l[i].innerHTML.indexOf(<span class="string">"csdn已为您找到关于"</span>);</span><br><span class="line">            <span class="keyword">if</span> (index&gt;<span class="number">-1</span>)&#123;</span><br><span class="line">                ++c;</span><br><span class="line">                <span class="keyword">var</span> obj = l[i];</span><br><span class="line">                <span class="keyword">while</span> (!obj.classList.contains(<span class="string">"result"</span>))&#123;</span><br><span class="line">                    obj = obj.parentNode;</span><br><span class="line">                &#125;</span><br><span class="line">                obj.remove();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"csnd"</span>, c);</span><br><span class="line">&#125;;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
-<p>设置站点<br />
-<img src="csdn_example3.png" alt="" /></p>
-<p>OK</p>
-
+        <p>使用百度搜索的时候 常会看到这种情形</p>
+        
+          <p class="article-more-link">
+            <a href="/p/202010010/#more">More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
