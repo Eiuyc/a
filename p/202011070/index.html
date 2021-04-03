@@ -6,12 +6,12 @@
   
   <title>修复有写保护的U盘 | Eiuyc</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content=":) This device is write protected.这张磁盘有写保护。">
+  <meta name="description" content=":) This device is write protected. 这张磁盘有写保护。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="修复有写保护的U盘">
 <meta property="og:url" content="https://eiuyc.tk/p/202011070/index.html">
 <meta property="og:site_name" content="Eiuyc">
-<meta property="og:description" content=":) This device is write protected.这张磁盘有写保护。">
+<meta property="og:description" content=":) This device is write protected. 这张磁盘有写保护。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://eiuyc.tk/p/202011070/usb.png">
 <meta property="og:image" content="https://eiuyc.tk/p/202011070/ap.png">
@@ -108,24 +108,34 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>:)</p>
-<p>This device is write protected.<br>这张磁盘有写保护。</p>
+<p>This device is write protected.<br />
+这张磁盘有写保护。</p>
 <a id="more"></a>
-
 <p>几年前，大概是强行往U盘里写了一个大压缩包（大概超过4GB），还没写完，U盘就爆了。</p>
 <p>接入USB接口时，会弹出需要格式化的提示，然而进行格式化的时候又会提示有写保护。</p>
 <p>今天想给路由器加容量，想起了这个U盘，就想解决一下这个问题。</p>
 <p>尝试了diskpart命令，往注册表添加WriteProtect字段，都没有用。</p>
 <p>最后看到了这个：</p>
 <p><a href="https://www.bilibili.com/video/BV1XK411N7ZJ?from=search&seid=15813374626888696496" target="_blank">手把手教会你处理U盘被写保护的问题</a></p>
-<h2 id="一、获取U盘主控型号"><a href="#一、获取U盘主控型号" class="headerlink" title="一、获取U盘主控型号"></a>一、获取U盘主控型号</h2><p>使用ChipGenius工具查看：<br><a id='u'></a><img src="usb.png" alt=""></p>
-<h2 id="二、获得相应主控型号的量产工具"><a href="#二、获得相应主控型号的量产工具" class="headerlink" title="二、获得相应主控型号的量产工具"></a>二、获得相应主控型号的量产工具</h2><p>我这个是HY6919，有MPtool和APtool。</p>
+<h2 id="一-获取u盘主控型号"><a class="markdownIt-Anchor" href="#一-获取u盘主控型号"></a> 一、获取U盘主控型号</h2>
+<p>使用ChipGenius工具查看：<br />
+<a id='u'></a><img src="usb.png" alt="" /></p>
+<h2 id="二-获得相应主控型号的量产工具"><a class="markdownIt-Anchor" href="#二-获得相应主控型号的量产工具"></a> 二、获得相应主控型号的量产工具</h2>
+<p>我这个是HY6919，有MPtool和APtool。</p>
 <p>界面是一样的，但是MPtool读不出来。</p>
-<p>接上U盘后，APtools能读出来：<br><img src="ap.png" alt=""></p>
-<h2 id="三、修改设定"><a href="#三、修改设定" class="headerlink" title="三、修改设定"></a>三、修改设定</h2><p>密码留空就能进设定</p>
-<p>容量设定改成实际容量<br><img src="storage.png" alt=""></p>
-<h2 id="四、点开始"><a href="#四、点开始" class="headerlink" title="四、点开始"></a>四、点开始</h2><p>然后就能读出容量了，还会有一些乱码<br><img src="mess.png" alt=""></p>
-<h2 id="五、最后的清理"><a href="#五、最后的清理" class="headerlink" title="五、最后的清理"></a>五、最后的清理</h2><p>手动删除，可能会没有提示，拔下U盘再重新读一次就可以了<br><img src="good.png" alt=""></p>
-<hr>
+<p>接上U盘后，APtools能读出来：<br />
+<img src="ap.png" alt="" /></p>
+<h2 id="三-修改设定"><a class="markdownIt-Anchor" href="#三-修改设定"></a> 三、修改设定</h2>
+<p>密码留空就能进设定</p>
+<p>容量设定改成实际容量<br />
+<img src="storage.png" alt="" /></p>
+<h2 id="四-点开始"><a class="markdownIt-Anchor" href="#四-点开始"></a> 四、点开始</h2>
+<p>然后就能读出容量了，还会有一些乱码<br />
+<img src="mess.png" alt="" /></p>
+<h2 id="五-最后的清理"><a class="markdownIt-Anchor" href="#五-最后的清理"></a> 五、最后的清理</h2>
+<p>手动删除，可能会没有提示，拔下U盘再重新读一次就可以了<br />
+<img src="good.png" alt="" /></p>
+<hr />
 <p>参考自：</p>
 <p><a href="https://www.bilibili.com/video/BV1XK411N7ZJ?from=search&seid=15813374626888696496" target="_blank">手把手教会你处理U盘被写保护的问题</a></p>
 <p><a href="https://zhidao.baidu.com/question/1116735361977231219.html" target="_blank">百度老哥</a></p>
@@ -134,7 +144,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://eiuyc.tk/p/202011070/" data-id="ckh7md7qt0000jwfk2n305o3y" data-title="修复有写保护的U盘" class="article-share-link">分享</a>
+      <a data-url="https://eiuyc.tk/p/202011070/" data-id="ckn1ehjf6001emsfkh3a6den6" data-title="修复有写保护的U盘" class="article-share-link">分享</a>
       
       
       

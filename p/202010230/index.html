@@ -121,31 +121,36 @@
 <p>c++的效率高过gdscript</p>
 <p>通过加载dll的方式，godot可以调用cpp</p>
 <a id="more"></a>
-
-<h2 id="一、文件结构"><a href="#一、文件结构" class="headerlink" title="一、文件结构"></a>一、文件结构</h2><p>从一个空文件夹开始<br>取名为<code>CPP</code>，作为根目录</p>
+<h2 id="一-文件结构"><a class="markdownIt-Anchor" href="#一-文件结构"></a> 一、文件结构</h2>
+<p>从一个空文件夹开始<br />
+取名为<code>CPP</code>，作为根目录</p>
 <p>在CPP下新建一个空的Godot项目，取名为<code>demo</code></p>
 <p>在终端键入命令：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone --recursive https:&#x2F;&#x2F;github.com&#x2F;godotengine&#x2F;godot-cpp.git</span><br></pre></td></tr></table></figure>
 <p><code>--recursive</code>选项使得子模块<code>godot_headers</code>也会一并下载</p>
 <p>当前文件（大致）:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CPP</span><br><span class="line">├─demo</span><br><span class="line">│  └─.import</span><br><span class="line">└─godot-cpp</span><br><span class="line">    ├─godot_headers</span><br><span class="line">    ├─include</span><br><span class="line">    │  ├─core</span><br><span class="line">    │  └─gen</span><br><span class="line">    └─SConstruct</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="二、使用scons编译lib"><a href="#二、使用scons编译lib" class="headerlink" title="二、使用scons编译lib"></a>二、使用<code>scons</code>编译lib</h2><p>假设机器已经有pip工具</p>
-<h3 id="下载scons："><a href="#下载scons：" class="headerlink" title="下载scons："></a>下载scons：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install scons</span><br></pre></td></tr></table></figure>
-
-<h3 id="编译："><a href="#编译：" class="headerlink" title="编译："></a>编译：</h3><p>要用到微软的cl编译器<br>装了vs 2019应该就有<br>如果不行可以手动配环境变量PATH</p>
+<h2 id="二-使用scons编译lib"><a class="markdownIt-Anchor" href="#二-使用scons编译lib"></a> 二、使用<code>scons</code>编译lib</h2>
+<p>假设机器已经有pip工具</p>
+<h3 id="下载scons"><a class="markdownIt-Anchor" href="#下载scons"></a> 下载scons：</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install scons</span><br></pre></td></tr></table></figure>
+<h3 id="编译"><a class="markdownIt-Anchor" href="#编译"></a> 编译：</h3>
+<p>要用到微软的cl编译器<br />
+装了vs 2019应该就有<br />
+如果不行可以手动配环境变量PATH</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd godot-cpp</span><br><span class="line">scons generate_bindings&#x3D;yes</span><br></pre></td></tr></table></figure>
-<p>咕噜咕噜冒泡<br>大概10分钟</p>
+<p>咕噜咕噜冒泡<br />
+大概10分钟</p>
 <p>在godot-cpp下会多出一个<code>bin</code>文件夹，里面的<code>libgodot-cpp.windows.debug.64.lib</code>就是一会儿编译dll时要用到的lib</p>
 <p>可以使用<code>target</code>选项获得<code>libgodot-cpp.windows.debug.64.lib</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scons generate_bindings&#x3D;yes target&#x3D;release</span><br></pre></td></tr></table></figure>
-
-<h2 id="三、编写自定义cpp模块"><a href="#三、编写自定义cpp模块" class="headerlink" title="三、编写自定义cpp模块"></a>三、编写自定义cpp模块</h2><p>假设要用cpp做一个控制物体上下左右移动的模块</p>
+<h2 id="三-编写自定义cpp模块"><a class="markdownIt-Anchor" href="#三-编写自定义cpp模块"></a> 三、编写自定义cpp模块</h2>
+<p>假设要用cpp做一个控制物体上下左右移动的模块</p>
 <p>在CPP下新建<code>src</code>，并添加一些文件</p>
 <p>src/library.hpp</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Godot.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"Player.h"</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> godot;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span> <span class="function"><span class="keyword">void</span> GDN_EXPORT <span class="title">godot_gdnative_init</span><span class="params">(godot_gdnative_init_options * o)</span></span>&#123;</span><br><span class="line">    Godot::gdnative_init(o);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span> <span class="function"><span class="keyword">void</span> GDN_EXPORT <span class="title">godot_gdnative_terminate</span><span class="params">(godot_gdnative_terminate_options * o)</span> </span>&#123;</span><br><span class="line">    Godot::gdnative_terminate(o);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span> <span class="function"><span class="keyword">void</span> GDN_EXPORT <span class="title">godot_nativescript_init</span><span class="params">(<span class="keyword">void</span>* handle)</span> </span>&#123;</span><br><span class="line">    Godot::nativescript_init(handle);</span><br><span class="line">    register_class&lt;Player&gt;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>library.hpp</code>中所写的大多是模板，值得注意的是最后的<code>register_class&lt;Player&gt;();</code><br>这个语句向godot引擎注册了Player类</p>
+<p><code>library.hpp</code>中所写的大多是模板，值得注意的是最后的<code>register_class&lt;Player&gt;();</code><br />
+这个语句向godot引擎注册了Player类</p>
 <p>src/Player.h</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Godot.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;KinematicBody2D.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Input.hpp&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> godot &#123;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Player</span> :</span> <span class="keyword">public</span> KinematicBody2D</span><br><span class="line">    &#123;</span><br><span class="line">        GODOT_CLASS(Player, KinematicBody2D);</span><br><span class="line">        Vector2 motion;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">int</span> speed = <span class="number">300</span>;</span><br><span class="line">        <span class="keyword">static</span> <span class="keyword">void</span> _register_methods();</span><br><span class="line">        <span class="keyword">void</span> _init();</span><br><span class="line">        <span class="keyword">void</span> _process(<span class="keyword">float</span> delta);</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">UpdateMotionFromInput</span><span class="params">()</span></span>;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><code>Player.h</code>中的<code>GODOT_CLASS(Player, KinematicBody2D);</code>向Godot引擎声明自定义类Player继承自<code>KinematicBody2D</code>（大概）</p>
@@ -157,42 +162,71 @@
 <p>注意<code>Sconstruct</code>中5-11行的各个字段，如果之前有不一样的，这里需要改</p>
 <p>当前文件（大概）：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">CPP</span><br><span class="line">├─demo</span><br><span class="line">│  └─.import</span><br><span class="line">├─godot-cpp</span><br><span class="line">│  ├─bin</span><br><span class="line">│  │  └─libgodot-cpp.windows.debug.64.lib</span><br><span class="line">│  ├─godot_headers</span><br><span class="line">│  └─include</span><br><span class="line">│     ├─core</span><br><span class="line">│     └─gen</span><br><span class="line">├─src</span><br><span class="line">│  ├─library.cpp</span><br><span class="line">│  ├─Player.cpp</span><br><span class="line">│  └─Player.h</span><br><span class="line">└─Sconstruct</span><br></pre></td></tr></table></figure>
-
-<h2 id="四、编译dll"><a href="#四、编译dll" class="headerlink" title="四、编译dll"></a>四、编译dll</h2><p>在CPP目录下：</p>
+<h2 id="四-编译dll"><a class="markdownIt-Anchor" href="#四-编译dll"></a> 四、编译dll</h2>
+<p>在CPP目录下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scons</span><br></pre></td></tr></table></figure>
 <p>报错：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LINK : fatal error LNK1181: cannot open input file &#39;libgodot-cpp.windows.64.lib&#39;</span><br><span class="line">scons: *** [demo\bin\win64\test.dll] Error 1181</span><br><span class="line">scons: building terminated because of errors.</span><br></pre></td></tr></table></figure>
-
-<p>将<code>libgodot-cpp.windows.debug.64.lib</code>重命名为<code>libgodot-cpp.windows.64.lib</code><br>重试：</p>
+<p>将<code>libgodot-cpp.windows.debug.64.lib</code>重命名为<code>libgodot-cpp.windows.64.lib</code><br />
+重试：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">scons: Reading SConscript files ...</span><br><span class="line">scons: done reading SConscript files.</span><br><span class="line">scons: Building targets ...</span><br><span class="line">link &#x2F;nologo &#x2F;dll &#x2F;out:demo\bin\win64\test.dll &#x2F;implib:demo\bin\win64\test.lib &#x2F;LIBPATH:godot-cpp\bin libgodot-cpp.windows.64.lib src\library.obj src\Player.obj</span><br><span class="line">   Creating library demo\bin\win64\test.lib and object demo\bin\win64\test.exp</span><br><span class="line">scons: done building targets.</span><br></pre></td></tr></table></figure>
 <p>OK，项目demo的目录下多出了bin文件夹</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">demo</span><br><span class="line">└─bin</span><br><span class="line">  └─win64</span><br><span class="line">      ├─test.dll</span><br><span class="line">      ├─test.exp</span><br><span class="line">      └─test.lib</span><br></pre></td></tr></table></figure>
 <p>只会用到test.dll</p>
-<h2 id="五、设置Godot"><a href="#五、设置Godot" class="headerlink" title="五、设置Godot"></a>五、设置Godot</h2><h3 id="设置场景"><a href="#设置场景" class="headerlink" title="设置场景"></a>设置场景</h3><p>新建2d节点，添加物体<br><img src="objects.png" alt=""></p>
-<p>为<code>CollisionShape2D</code>选择一个圆形的碰撞箱<br><img src="collision.png" alt=""></p>
-<p>把icon拖到sprite的Texture下<br><img src="icon.png" alt=""><br><img src="sprite.png" alt=""></p>
-<p>当前场景：<br><img src="scene.png" alt=""></p>
-<h3 id="创建GDNativeLibrary"><a href="#创建GDNativeLibrary" class="headerlink" title="创建GDNativeLibrary"></a>创建<code>GDNativeLibrary</code></h3><p>在资源面板下右击空白处，选择<code>New Resource</code><br><img src="gdnativelibrary.png" alt=""></p>
-<p>添加<code>GDNativeLibrary</code><br><img src="gdnativelibrary2.png" alt=""></p>
-<p>重命名为<code>gdnativelibrary.gdnlib</code>，注意后缀名<br><img src="gdnativelibrary3.png" alt=""></p>
-<p>在弹出的面板中找到windows一栏，点击64位对应的按钮<br><img src="gdnativelibrary4.png" alt=""></p>
-<p>选择之前的编译好的<code>test.dll</code><br><img src="gdnativelibrary5.png" alt=""></p>
-<h3 id="创建native-script"><a href="#创建native-script" class="headerlink" title="创建native script"></a>创建<code>native script</code></h3><p>选中<code>KinematicBody2D</code>，添加脚本<br><img src="script.png" alt=""></p>
-<p>选择<code>NativeScript</code><br><code>Class Name</code>就是自定义类的名字，也就是之前的Player<br><img src="gdnative.png" alt=""></p>
-<p>在inspector中可以看到<code>Library</code>选项，添加上述的<code>gdnativelibrary.gdnlib</code><br><img src="gdnative_inspector.png" alt=""><br><img src="load.png" alt=""><br><img src="load2.png" alt=""></p>
-<h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><p>保存场景，并设置主场景，运行<br>可以通过四个方向键来控制物体了<br><video controls="" preload="none" poster="demo.png"><br>    <source src="demo.mp4" type="video/mp4"><br></video></p>
-<hr>
-<p>参考自：<br><a href="https://github.com/godotengine/godot-cpp" target="_blank">godot-cpp</a></p>
+<h2 id="五-设置godot"><a class="markdownIt-Anchor" href="#五-设置godot"></a> 五、设置Godot</h2>
+<h3 id="设置场景"><a class="markdownIt-Anchor" href="#设置场景"></a> 设置场景</h3>
+<p>新建2d节点，添加物体<br />
+<img src="objects.png" alt="" /></p>
+<p>为<code>CollisionShape2D</code>选择一个圆形的碰撞箱<br />
+<img src="collision.png" alt="" /></p>
+<p>把icon拖到sprite的Texture下<br />
+<img src="icon.png" alt="" /><br />
+<img src="sprite.png" alt="" /></p>
+<p>当前场景：<br />
+<img src="scene.png" alt="" /></p>
+<h3 id="创建gdnativelibrary"><a class="markdownIt-Anchor" href="#创建gdnativelibrary"></a> 创建<code>GDNativeLibrary</code></h3>
+<p>在资源面板下右击空白处，选择<code>New Resource</code><br />
+<img src="gdnativelibrary.png" alt="" /></p>
+<p>添加<code>GDNativeLibrary</code><br />
+<img src="gdnativelibrary2.png" alt="" /></p>
+<p>重命名为<code>gdnativelibrary.gdnlib</code>，注意后缀名<br />
+<img src="gdnativelibrary3.png" alt="" /></p>
+<p>在弹出的面板中找到windows一栏，点击64位对应的按钮<br />
+<img src="gdnativelibrary4.png" alt="" /></p>
+<p>选择之前的编译好的<code>test.dll</code><br />
+<img src="gdnativelibrary5.png" alt="" /></p>
+<h3 id="创建native-script"><a class="markdownIt-Anchor" href="#创建native-script"></a> 创建<code>native script</code></h3>
+<p>选中<code>KinematicBody2D</code>，添加脚本<br />
+<img src="script.png" alt="" /></p>
+<p>选择<code>NativeScript</code><br />
+<code>Class Name</code>就是自定义类的名字，也就是之前的Player<br />
+<img src="gdnative.png" alt="" /></p>
+<p>在inspector中可以看到<code>Library</code>选项，添加上述的<code>gdnativelibrary.gdnlib</code><br />
+<img src="gdnative_inspector.png" alt="" /><br />
+<img src="load.png" alt="" /><br />
+<img src="load2.png" alt="" /></p>
+<h3 id="运行"><a class="markdownIt-Anchor" href="#运行"></a> 运行</h3>
+<p>保存场景，并设置主场景，运行<br />
+可以通过四个方向键来控制物体了<br />
+<video controls="" preload="none" poster="demo.png"><br />
+<source src="demo.mp4" type="video/mp4"><br />
+</video></p>
+<hr />
+<p>参考自：<br />
+<a href="https://github.com/godotengine/godot-cpp" target="_blank">godot-cpp</a></p>
 <p><a href="https://www.youtube.com/watch?v=voXapBgDdts&list=PLZ2NyOcFnfQOko5ZysZeGkH3bfw2UtbOK" target="_blank">Using C++ in GODOT Engine</a></p>
-<p><a href="https://www.youtube.com/watch?v=2hK7vOigbLQ" target="_blank">Godot Nativescript 1.1 introduction - writing C++ plugins<br></a></p>
-<hr>
-<h2 id="一些试验"><a href="#一些试验" class="headerlink" title="一些试验"></a>一些试验</h2><p>godot版本：</p>
+<p><a href="https://www.youtube.com/watch?v=2hK7vOigbLQ" target="_blank">Godot Nativescript 1.1 introduction - writing C++ plugins<br />
+</a></p>
+<hr />
+<h2 id="一些试验"><a class="markdownIt-Anchor" href="#一些试验"></a> 一些试验</h2>
+<p>godot版本：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Godot Engine v3.2.3.stable.official - https:&#x2F;&#x2F;godotengine.org</span><br><span class="line">OpenGL ES 3.0 Renderer: GeForce 940MX&#x2F;PCIe&#x2F;SSE2</span><br></pre></td></tr></table></figure>
-<h3 id="1-不手动创建gdnativelibrary-gdnlib而是在native-script中的Library一栏选择New-Library并进行设置也是可以的"><a href="#1-不手动创建gdnativelibrary-gdnlib而是在native-script中的Library一栏选择New-Library并进行设置也是可以的" class="headerlink" title="1.不手动创建gdnativelibrary.gdnlib而是在native script中的Library一栏选择New Library并进行设置也是可以的"></a>1.不手动创建gdnativelibrary.gdnlib而是在<code>native script</code>中的Library一栏选择New Library并进行设置也是可以的</h3>
+<h3 id="1不手动创建gdnativelibrarygdnlib而是在native-script中的library一栏选择new-library并进行设置也是可以的"><a class="markdownIt-Anchor" href="#1不手动创建gdnativelibrarygdnlib而是在native-script中的library一栏选择new-library并进行设置也是可以的"></a> 1.不手动创建gdnativelibrary.gdnlib而是在<code>native script</code>中的Library一栏选择New Library并进行设置也是可以的</h3>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://eiuyc.tk/p/202010230/" data-id="ckh05nwiw0014x4fk65860htf" data-title="在godot中使用cpp" class="article-share-link">分享</a>
+      <a data-url="https://eiuyc.tk/p/202010230/" data-id="ckn1ehjez0018msfk4j8f9w3d" data-title="在godot中使用cpp" class="article-share-link">分享</a>
       
       
       
