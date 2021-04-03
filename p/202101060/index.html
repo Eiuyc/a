@@ -6,12 +6,12 @@
   
   <title>YOWO项目-记录 | Eiuyc</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content=":)">
+  <meta name="description" content=":) YOWO是一个实时的行为识别模型">
 <meta property="og:type" content="article">
 <meta property="og:title" content="YOWO项目-记录">
 <meta property="og:url" content="https://eiuyc.tk/p/202101060/index.html">
 <meta property="og:site_name" content="Eiuyc">
-<meta property="og:description" content=":)">
+<meta property="og:description" content=":) YOWO是一个实时的行为识别模型">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://eiuyc.tk/p/202101060/hardware.png">
 <meta property="og:image" content="https://eiuyc.tk/p/202101060/deamon.png">
@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://eiuyc.tk/p/202101060/errors/mount_error.png">
 <meta property="og:image" content="https://eiuyc.tk/p/202101060/trash.png">
 <meta property="article:published_time" content="2021-01-06T02:06:09.000Z">
-<meta property="article:modified_time" content="2021-01-09T03:44:24.810Z">
+<meta property="article:modified_time" content="2021-04-03T07:04:42.547Z">
 <meta property="article:author" content="Eiuyc">
 <meta property="article:tag" content="server">
 <meta property="article:tag" content="python">
@@ -115,63 +115,91 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>:)</p>
+        <p>:)<br />
+YOWO是一个实时的行为识别模型</p>
 <a id="more"></a>
-
 <p><a href="https://github.com/wei-tim/YOWO" target="_blank">YOWO项目地址</a></p>
-<h2 id="数据集"><a href="#数据集" class="headerlink" title="数据集"></a>数据集</h2><p>项目给出了2个数据集 UCF101-24 和 J-HMDB-21</p>
+<h2 id="数据集"><a class="markdownIt-Anchor" href="#数据集"></a> 数据集</h2>
+<p>项目给出了2个数据集 UCF101-24 和 J-HMDB-21</p>
 <p>这里使用 <a href="https://drive.google.com/file/d/1o2l6nYhd-0DDXGP-IPReBP4y1ffVmGSE/view?usp=sharing" target="_blank">UCF101-24</a></p>
 <p><a href="https://www.dropbox.com/sh/16jv2kwzom1pmlt/AABL3cFWDfG5MuH9PwnjSJf0a?dl=0" target="_blank">数据集的注解</a>也就是在 <code>cfg/</code>下<code>ucf24.data</code>中写明的<code>trainlist.txt</code>和<code>testlist.txt</code></p>
-<h2 id="预训练的模型权重"><a href="#预训练的模型权重" class="headerlink" title="预训练的模型权重"></a>预训练的模型权重</h2><p><a href="http://pjreddie.com/media/files/yolo.weights
+<h2 id="预训练的模型权重"><a class="markdownIt-Anchor" href="#预训练的模型权重"></a> 预训练的模型权重</h2>
+<p><a href="http://pjreddie.com/media/files/yolo.weights
 " target="_blank">yolo权重 Darknet-19</a></p>
 <p><a href="https://drive.google.com/drive/folders/1zvl89AgFAApbH0At-gMuZSeQB_LpNP-M?usp=sharing" target="_blank">ResNeXt ve ResNet</a></p>
 <p><a href="https://www.dropbox.com/sh/16jv2kwzom1pmlt/AABL3cFWDfG5MuH9PwnjSJf0a?dl=0" target="_blank">YOWO</a></p>
 <p>都放到项目目录下的<code>weights/</code></p>
-<h2 id="模型训练"><a href="#模型训练" class="headerlink" title="模型训练"></a>模型训练</h2><p>在项目目录下有4个.sh脚本</p>
+<h2 id="模型训练"><a class="markdownIt-Anchor" href="#模型训练"></a> 模型训练</h2>
+<p>在项目目录下有4个.sh脚本</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">run_jhmdb-21.sh</span><br><span class="line">run_ucf101-24.sh</span><br><span class="line">run_video_mAP_jhmdb.sh</span><br><span class="line">run_video_mAP_ucf.sh</span><br></pre></td></tr></table></figure>
-
-<p>这里用了第二个进行训练<br>run_ucf101-24.sh的内容:</p>
+<p>这里用了第二个进行训练<br />
+run_ucf101-24.sh的内容:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">python train.py --dataset ucf101-24 \</span><br><span class="line">	 			--data_cfg cfg&#x2F;ucf24.data \</span><br><span class="line">	 			--cfg_file cfg&#x2F;ucf24.cfg \</span><br><span class="line">	 			--n_classes 24 \</span><br><span class="line">	 			--backbone_3d resnext101 \</span><br><span class="line">	 			--backbone_3d_weights weights&#x2F;resnext-101-kinetics.pth \</span><br><span class="line">	 			--backbone_2d darknet \</span><br><span class="line">	 			--backbone_2d_weights weights&#x2F;yolo.weights \</span><br><span class="line">	 			# --resume_path &#x2F;usr&#x2F;home&#x2F;sut&#x2F;yowo&#x2F;backup&#x2F;yowo_ucf101-24_16f_best.pth \</span><br><span class="line"></span><br><span class="line">python .&#x2F;evaluation&#x2F;Object-Detection-Metrics&#x2F;pascalvoc.py --gtfolder groundtruths_ucf --detfolder ..&#x2F;..&#x2F;ucf_detections&#x2F;detections_0</span><br></pre></td></tr></table></figure>
-
 <p>更改<code>resume_path</code>:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--resume_path path_to&#x2F;backup&#x2F;yowo_ucf101-24_16f_best.pth</span><br></pre></td></tr></table></figure>
-
-<p>最后一行是检验的命令<br>根据每个epoch产生的训练数据，计算24个类别的<code>AP(average precision)</code>，最后再计算<code>mAP(mean average precision)</code></p>
+<p>最后一行是检验的命令<br />
+根据每个epoch产生的训练数据，计算24个类别的<code>AP(average precision)</code>，最后再计算<code>mAP(mean average precision)</code></p>
 <p>更改<code>cfg/ucf24.data</code>:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">base, train, valid</span><br><span class="line">改成相应的路径</span><br></pre></td></tr></table></figure>
-
-
 <p>根据实验环境，这里修改了gpus:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gpus &#x3D; 1,2,3</span><br></pre></td></tr></table></figure>
-
-
 <p>用后三张卡跑</p>
-<h2 id="模型检验"><a href="#模型检验" class="headerlink" title="模型检验"></a>模型检验</h2><ol>
+<h2 id="模型检验"><a class="markdownIt-Anchor" href="#模型检验"></a> 模型检验</h2>
+<ol>
 <li>groundtruths</li>
 </ol>
 <p>项目目录下的<code>evaluation/Object-Detection-Metrics/</code>下有<code>groundtruths_jhmdb.zip</code>和<code>groundtruths_ucf.zip</code></p>
 <p>就地解压第二个，得到<code>groundtruths_ucf</code>目录</p>
 <ol start="2">
-<li>命令  </li>
+<li>命令</li>
 </ol>
-<p>在<code>run_ucf101-24.sh</code>中的最后一行，可能是检验模型的命令<br>它将执行<code>evaluation/Object-Detection-Metrics/pascalvoc.py</code><br><code>--detfolder</code>指明了生成的训练数据的路径。默认是在项目目录下每完整跑完一轮epoch和一轮test，将在<code>YOWO/ucf_detections/detections_x</code>下生成<code>xxx.txt</code>的检测数据，其名称与样本一一对应，其内容的每一行由6个值：类别id，置信度，x1，y1，x2，y2。两对坐标分别是框的左上角与右下角。</p>
-<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><ol>
+<p>在<code>run_ucf101-24.sh</code>中的最后一行，可能是检验模型的命令<br />
+它将执行<code>evaluation/Object-Detection-Metrics/pascalvoc.py</code><br />
+<code>--detfolder</code>指明了生成的训练数据的路径。默认是在项目目录下每完整跑完一轮epoch和一轮test，将在<code>YOWO/ucf_detections/detections_x</code>下生成<code>xxx.txt</code>的检测数据，其名称与样本一一对应，其内容的每一行由6个值：类别id，置信度，x1，y1，x2，y2。两对坐标分别是框的左上角与右下角。</p>
+<h2 id="遇到的问题"><a class="markdownIt-Anchor" href="#遇到的问题"></a> 遇到的问题</h2>
+<ol>
 <li>进程被killed</li>
 </ol>
-<p>一般来说，操作系统会在资源紧张的时候杀死进程，都是这次碰到的是在资源充足的情况下发生的。也许与服务器正在部署集群有关。<br>这是服务器的显卡，四张2080Ti，用后三张在跑。<br><img src="hardware.png" alt=""><br>数据集<code>UCF24</code>提供了<code>337834</code>个训练样本，速度大概是30个样本每秒，所以一个epoch大概是3个多小时。然而现实情况是，往往一个epoch都跑不到就会出现<code>Killed</code>提示，进程被杀死了。<br>根据项目的逻辑，在一个epoch完成之后，会进行测试、评分、保存模型。倘若进程突然停止，则当前epoch的工作就相当于没有做。<br>暂时的解决办法是，将<code>datasets/ucf24/</code>下的<code>trainlist.txt</code>和<code>testlist.txt</code>各随机地取出十分之一，存入两个小文件中（这里的例子是trainlist_tiny.txt）这样，一轮的时间大约是20分钟。<br>然而现实是，即使是这样，神奇的<code>Killed</code>仍然产生了，没来得及保存。<br>那么 21:08 成功了一轮<br>写了一个脚本，检测到杀死之后自动重启<br><img src="deamon.png" alt=""><br>昨天晚上11点到今天16点，守护进程每分钟检查一次<br>很忠实地在每个小时的17分杀死进程</p>
-<h3 id="在十分之一数据上产生的detections"><a href="#在十分之一数据上产生的detections" class="headerlink" title="在十分之一数据上产生的detections"></a>在十分之一数据上产生的detections</h3><p><img src="mAP/detections.png" alt=""><br><img src="mAP/detect0.png" alt=""><br><img src="mAP/detect3.png" alt=""><br><img src="mAP/detect4.png" alt=""><br><img src="mAP/detect5.png" alt=""><br><img src="mAP/detect6.png" alt=""><br><img src="mAP/detect7.png" alt=""><br><img src="mAP/detect8.png" alt=""><br>样本太少，没有覆盖到全部的24个类别<br>但是全部的数据集又不能在1个小时内跑完</p>
+<p>一般来说，操作系统会在资源紧张的时候杀死进程，都是这次碰到的是在资源充足的情况下发生的。也许与服务器正在部署集群有关。<br />
+这是服务器的显卡，四张2080Ti，用后三张在跑。<br />
+<img src="hardware.png" alt="" /><br />
+数据集<code>UCF24</code>提供了<code>337834</code>个训练样本，速度大概是30个样本每秒，所以一个epoch大概是3个多小时。然而现实情况是，往往一个epoch都跑不到就会出现<code>Killed</code>提示，进程被杀死了。<br />
+根据项目的逻辑，在一个epoch完成之后，会进行测试、评分、保存模型。倘若进程突然停止，则当前epoch的工作就相当于没有做。<br />
+暂时的解决办法是，将<code>datasets/ucf24/</code>下的<code>trainlist.txt</code>和<code>testlist.txt</code>各随机地取出十分之一，存入两个小文件中（这里的例子是trainlist_tiny.txt）这样，一轮的时间大约是20分钟。<br />
+然而现实是，即使是这样，神奇的<code>Killed</code>仍然产生了，没来得及保存。<br />
+那么 21:08 成功了一轮<br />
+写了一个脚本，检测到杀死之后自动重启<br />
+<img src="deamon.png" alt="" /><br />
+昨天晚上11点到今天16点，守护进程每分钟检查一次<br />
+很忠实地在每个小时的17分杀死进程</p>
+<h3 id="在十分之一数据上产生的detections"><a class="markdownIt-Anchor" href="#在十分之一数据上产生的detections"></a> 在十分之一数据上产生的detections</h3>
+<p><img src="mAP/detections.png" alt="" /><br />
+<img src="mAP/detect0.png" alt="" /><br />
+<img src="mAP/detect3.png" alt="" /><br />
+<img src="mAP/detect4.png" alt="" /><br />
+<img src="mAP/detect5.png" alt="" /><br />
+<img src="mAP/detect6.png" alt="" /><br />
+<img src="mAP/detect7.png" alt="" /><br />
+<img src="mAP/detect8.png" alt="" /><br />
+样本太少，没有覆盖到全部的24个类别<br />
+但是全部的数据集又不能在1个小时内跑完</p>
 <p>打算colab上跑一跑，起码不会<code>Killed</code></p>
 <ol start="2">
 <li>colab解压速度很慢</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">首先要更改工作目录：</span><br><span class="line">import os</span><br><span class="line">os.chdir(&#39;&#x2F;content&#x2F;drive&#x2F;MyDrive&#x2F;Colab Notebooks&#x2F;YOWO&#x2F;datasets&#39;)</span><br><span class="line"></span><br><span class="line">!mkdir weights</span><br><span class="line">!mkdir datasets</span><br><span class="line">!cd datasets &amp;&amp; tar -xzf ucf24.tar.gz</span><br></pre></td></tr></table></figure>
 <p>2021-01-07 15:21 今天一直在解压，中间断了一次，预计是5个小时</p>
-<p>解压好了 但是出现了<code>drive</code>找不到的情况：<br><img src="errors/mount_error.png" alt=""></p>
+<p>解压好了 但是出现了<code>drive</code>找不到的情况：<br />
+<img src="errors/mount_error.png" alt="" /></p>
 <p>从GPU切换回普通环境，跟没解压一样</p>
-<p>云盘有延迟，解压完成之后，需要过一段时间，才能在盘中显示<br>这是我在删掉datasets之后才认识到的</p>
+<p>云盘有延迟，解压完成之后，需要过一段时间，才能在盘中显示<br />
+这是我在删掉datasets之后才认识到的</p>
 <p>现在大概需要等一段时间，直到盘的状态和已使用空间匹配</p>
-<p>现在回收站会不断地冒出<code>ucf24</code>里的文件，之前已经永久删除了一部分，只能硬着头皮继续删<br><img src="trash.png" alt=""></p>
-<p>使用colab 应当将资料存入drive，如预训练的模型，数据集的压缩包，配置文件。<br>需要训练时，将github上的项目克隆到colab工作区，再将资料搬入工作区，进行解压，配置。<br>完成训练后，应当及时保存模型</p>
+<p>现在回收站会不断地冒出<code>ucf24</code>里的文件，之前已经永久删除了一部分，只能硬着头皮继续删<br />
+<img src="trash.png" alt="" /></p>
+<p>使用colab 应当将资料存入drive，如预训练的模型，数据集的压缩包，配置文件。<br />
+需要训练时，将github上的项目克隆到colab工作区，再将资料搬入工作区，进行解压，配置。<br />
+完成训练后，应当及时保存模型</p>
 
       
     </div>
@@ -248,7 +276,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Blog/">Blog</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/GameDev/">GameDev</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ML/">ML</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Modeling/">Modeling</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cpp/">cpp</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/disk/">disk</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js/">js</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/pyQt/">pyQt</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/router/">router</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/server/">server</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a><span class="category-list-count">2</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Blog/">Blog</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/GameDev/">GameDev</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ML/">ML</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Modeling/">Modeling</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cpp/">cpp</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/disk/">disk</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js/">js</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/pyQt/">pyQt</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/router/">router</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/server/">server</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a><span class="category-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -258,7 +286,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -268,7 +296,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/adb/" style="font-size: 13.33px;">adb</a> <a href="/tags/base64/" style="font-size: 10px;">base64</a> <a href="/tags/blender/" style="font-size: 13.33px;">blender</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/g/" style="font-size: 10px;">g++</a> <a href="/tags/git/" style="font-size: 13.33px;">git</a> <a href="/tags/godot/" style="font-size: 16.67px;">godot</a> <a href="/tags/gpg/" style="font-size: 10px;">gpg</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/json/" style="font-size: 10px;">json</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/paper/" style="font-size: 10px;">paper</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/pytorch/" style="font-size: 10px;">pytorch</a> <a href="/tags/server/" style="font-size: 10px;">server</a> <a href="/tags/trick/" style="font-size: 20px;">trick</a> <a href="/tags/vscode/" style="font-size: 10px;">vscode</a> <a href="/tags/yolo/" style="font-size: 13.33px;">yolo</a>
+      <a href="/tags/adb/" style="font-size: 13.33px;">adb</a> <a href="/tags/base64/" style="font-size: 10px;">base64</a> <a href="/tags/blender/" style="font-size: 13.33px;">blender</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/g/" style="font-size: 10px;">g++</a> <a href="/tags/git/" style="font-size: 13.33px;">git</a> <a href="/tags/godot/" style="font-size: 16.67px;">godot</a> <a href="/tags/gpg/" style="font-size: 10px;">gpg</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/json/" style="font-size: 10px;">json</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/paper/" style="font-size: 10px;">paper</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/pytorch/" style="font-size: 10px;">pytorch</a> <a href="/tags/server/" style="font-size: 10px;">server</a> <a href="/tags/trick/" style="font-size: 20px;">trick</a> <a href="/tags/yolo/" style="font-size: 13.33px;">yolo</a>
     </div>
   </div>
 

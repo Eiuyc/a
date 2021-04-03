@@ -70,59 +70,6 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-openwrt-storage" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/p/202011080/" class="article-date">
-  <time class="dt-published" datetime="2020-11-08T04:55:02.000Z" itemprop="datePublished">2020-11-08</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/router/">router</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-		
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/p/202011080/">给openwrt加存储，安装python</a>
-    </h1>
-  
-
-		<br>
-		<div style="height: 0.5px; background-color: rgb(230, 230, 230)"><div>
-	  </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>:)</p>
-<p>路由器可用的的存储只有不到60M，直接装python会失败。</p>
-<p>把闲置的U盘用上</p>
-        
-          <p class="article-more-link">
-            <a href="/p/202011080/#more">More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://eiuyc.tk/p/202011080/" data-id="ckh8sceel0000aofk2s6i1ba0" data-title="给openwrt加存储，安装python" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/openwrt/" rel="tag">openwrt</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
     <article id="post-usb-write-protected" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/p/202011070/" class="article-date">
@@ -203,7 +150,8 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>:)</p>
+        <p>:)<br />
+有ipv6就用一下</p>
         
           <p class="article-more-link">
             <a href="/p/202011020/#more">More</a>
@@ -307,7 +255,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>:)</p>
+        <p>导出来备份</p>
         
           <p class="article-more-link">
             <a href="/p/202010170/#more">More</a>
@@ -358,12 +306,8 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>:)</p>
-<p>Arch Wiki上写到：</p>
-<blockquote>
-<p>It is recommended to verify the image signature before use, especially when downloading from an HTTP mirror, where downloads are generally prone to be intercepted to serve malicious images.</p>
-</blockquote>
-<p>尝试一下</p>
+        <p>:)<br />
+尝试一下gpg</p>
         
           <p class="article-more-link">
             <a href="/p/202010130/#more">More</a>
@@ -414,7 +358,8 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>:)</p>
+        <p>:)<br />
+试试yolo</p>
         
           <p class="article-more-link">
             <a href="/p/202010121/#more">More</a>
@@ -465,12 +410,62 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>:)</p>
-        
-          <p class="article-more-link">
-            <a href="/p/202010120/#more">More</a>
-          </p>
-        
+        <a id="more"></a>
+<p>在使用godot引擎的过程中 我发现可以通过使用DLL来使项目的性能表现更好<br />
+于是就研究了一下DLL</p>
+<p>但是vs的体型太大了，于是尝试使用g++工具直接在命令行完成操作</p>
+<h2 id="g用法"><a class="markdownIt-Anchor" href="#g用法"></a> g++用法</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">1. 直接生成可执行文件a.exe：</span><br><span class="line">g++ filename.cpp</span><br><span class="line"></span><br><span class="line">2. -o选项设置输出文件名为somename.exe：</span><br><span class="line">g++ filename.cpp -o somename.exe</span><br><span class="line"></span><br><span class="line">3. -c选项设置只生成目标文件filename.o：</span><br><span class="line">g++ -c filename.cpp</span><br><span class="line"></span><br><span class="line">4. -shared选项设置通过目标文件filename.o生成共享库文件a.exe:</span><br><span class="line">g++ -shared filename.o</span><br><span class="line"></span><br><span class="line">5. 一般设置共享库文件后缀为.dll</span><br><span class="line">g++ -shared filename.o -o filename.dll</span><br></pre></td></tr></table></figure>
+<h2 id="vscode尝试"><a class="markdownIt-Anchor" href="#vscode尝试"></a> vscode尝试</h2>
+<p>新建两个文件:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── Person.cpp</span><br><span class="line">└── Person.h</span><br></pre></td></tr></table></figure>
+<p>Person.h的内容如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> DLL</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DLL __declspec(DLLimport)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DLL</span> <span class="title">Person</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> _age;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">set_age</span><span class="params">(<span class="keyword">int</span>)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">print_age</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>Person.cpp的内容如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DLL __declspec(DLLexport)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"Person.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="built_in">std</span>::<span class="built_in">cout</span>;</span><br><span class="line"><span class="keyword">using</span> <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> DLL <span class="title">Person::set_age</span><span class="params">(<span class="keyword">int</span> age)</span></span>&#123;</span><br><span class="line">    _age = age;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> DLL <span class="title">Person::print_age</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"age is "</span> &lt;&lt; _age &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Person.h头文件声明了一个Person类<br />
+Person.cpp中实现了其print_age方法<br />
+特殊之处在于宏DLL以及它的位置</p>
+<p>执行命令，获得目标文件Person.o</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ -c Person.cpp</span><br></pre></td></tr></table></figure>
+<p>执行命令，获得Person.dll</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ -shared Person.o -o Person.dll</span><br></pre></td></tr></table></figure>
+<p>当前文件:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── Person.cpp</span><br><span class="line">├── Person.dll</span><br><span class="line">├── Person.h</span><br><span class="line">└── Person.o</span><br></pre></td></tr></table></figure>
+<p>将头文件和这个DLL拿出来，再新建一个main.cpp来使用这个DLL<br />
+当前文件:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── main.cpp</span><br><span class="line">├── Person.dll</span><br><span class="line">└── Person.h</span><br></pre></td></tr></table></figure>
+<p>main.cpp的内容如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"Person.h"</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Person p;</span><br><span class="line">    p.set_age(<span class="number">3</span>);</span><br><span class="line">    p.print_age();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行命令，获得可执行文件a.exe</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ main.cpp Person.dll</span><br></pre></td></tr></table></figure>
+<p>执行a.exe<br />
+输出:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">age is 3</span><br></pre></td></tr></table></figure>
+<p>到这里，就完成主要内容了</p>
+<hr />
+<h2 id="一些试验"><a class="markdownIt-Anchor" href="#一些试验"></a> 一些试验</h2>
+<p>g++ 版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">g++ (x86_64-win32-seh-rev0, Built by MinGW-W64 project) 8.1.0</span><br><span class="line">Copyright (C) 2018 Free Software Foundation, Inc.</span><br><span class="line">This is free software; see the source for copying conditions.  There is NO</span><br><span class="line">warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</span><br></pre></td></tr></table></figure>
+<h3 id="1在写下上述宏定义之后不能再像对待普通源文件-头文件一样对待它们"><a class="markdownIt-Anchor" href="#1在写下上述宏定义之后不能再像对待普通源文件-头文件一样对待它们"></a> 1.在写下上述宏定义之后，不能再像对待普通源文件、头文件一样对待它们</h3>
+<p>当前文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── main.cpp</span><br><span class="line">├── Person.cpp</span><br><span class="line">└── Person.h</span><br></pre></td></tr></table></figure>
+<p>执行命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ main.cpp</span><br></pre></td></tr></table></figure>
+<p>输出:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">somePath:main.cpp:(.text+0x1c): undefined reference to &#96;__imp__ZN6Person7set_ageEi&#39;</span><br><span class="line">somePath:main.cpp:(.text+0x2c): undefined reference to &#96;__imp__ZN6Person9print_ageEv&#39;</span><br><span class="line">collect2.exe: error: ld returned 1 exit status</span><br></pre></td></tr></table></figure>
+<h3 id="2在将宏定义的双下划线__改为单下划线_后报错"><a class="markdownIt-Anchor" href="#2在将宏定义的双下划线__改为单下划线_后报错"></a> 2.在将宏定义的双下划线__改为单下划线_后报错</h3>
+<p><em>我是踩了这个坑，然后把单下划线改回双下划线的</em></p>
+<p>参考自：<br />
+<a href="https://blog.csdn.net/weixin_37614450/article/details/90247713" target="_blank">CSDN</a><br />
+<a href="https://blog.csdn.net/chuckfql/article/details/81153500" target="_blank">CSDN</a></p>
+<p>当前文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── main.cpp</span><br><span class="line">├── Person.cpp</span><br><span class="line">└── Person.h</span><br></pre></td></tr></table></figure>
+<p>执行命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ -c Person.cpp</span><br></pre></td></tr></table></figure>
+<p>部分输出:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">In file included from Person.cpp:4:</span><br><span class="line">Person.h:6:11: error: expected initializer before &#39;Person&#39;</span><br><span class="line"> class DLL Person</span><br><span class="line">           ^~~~~~</span><br><span class="line">Person.cpp:3:32: error: variable or field &#39;_declspec&#39; declared void</span><br><span class="line"> #define DLL _declspec(dllexport)</span><br><span class="line">                                ^</span><br><span class="line">Person.cpp:9:6: note: in expansion of macro &#39;DLL&#39;</span><br><span class="line"> void DLL Person::set_age(int age)&#123;</span><br><span class="line">      ^~~</span><br><span class="line">Person.cpp:3:23: error: &#39;dllexport&#39; was not declared in this scope</span><br><span class="line"> #define DLL _declspec(dllexport)</span><br></pre></td></tr></table></figure>
+
       
     </div>
     <footer class="article-footer">
@@ -516,7 +511,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>:)</p>
+        <p>adb shell getprop ro.product.cpu.abi</p>
         
           <p class="article-more-link">
             <a href="/p/202010100/#more">More</a>
@@ -567,7 +562,8 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>:)</p>
+        <p>之前在blbl上看到一个无限地形生成的示例<br />
+<a href="https://www.bilibili.com/video/BV18741177v3" target="_blank">地形生成</a></p>
         
           <p class="article-more-link">
             <a href="/p/202010070/#more">More</a>
@@ -577,6 +573,57 @@
     </div>
     <footer class="article-footer">
       <a data-url="https://eiuyc.tk/p/202010070/" data-id="ckh05nwib000kx4fkg3a0gvia" data-title="Godot Lod 测试" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/godot/" rel="tag">godot</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-godot-model-import" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/p/202010011/" class="article-date">
+  <time class="dt-published" datetime="2020-10-01T08:26:34.000Z" itemprop="datePublished">2020-10-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Modeling/">Modeling</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+		
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/p/202010011/">从blender导出GLTF至Godot，材质丢失</a>
+    </h1>
+  
+
+		<br>
+		<div style="height: 0.5px; background-color: rgb(230, 230, 230)"><div>
+	  </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>:(</p>
+        
+          <p class="article-more-link">
+            <a href="/p/202010011/#more">More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://eiuyc.tk/p/202010011/" data-id="ckh05nwhp000fx4fkdputcj44" data-title="从blender导出GLTF至Godot，材质丢失" class="article-share-link">分享</a>
       
       
       
@@ -636,7 +683,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Blog/">Blog</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/GameDev/">GameDev</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ML/">ML</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Modeling/">Modeling</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cpp/">cpp</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/disk/">disk</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js/">js</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/pyQt/">pyQt</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/router/">router</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/server/">server</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a><span class="category-list-count">2</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Blog/">Blog</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/GameDev/">GameDev</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ML/">ML</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Modeling/">Modeling</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cpp/">cpp</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/disk/">disk</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js/">js</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/pyQt/">pyQt</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/router/">router</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/server/">server</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a><span class="category-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -646,7 +693,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -656,7 +703,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/adb/" style="font-size: 13.33px;">adb</a> <a href="/tags/base64/" style="font-size: 10px;">base64</a> <a href="/tags/blender/" style="font-size: 13.33px;">blender</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/g/" style="font-size: 10px;">g++</a> <a href="/tags/git/" style="font-size: 13.33px;">git</a> <a href="/tags/godot/" style="font-size: 16.67px;">godot</a> <a href="/tags/gpg/" style="font-size: 10px;">gpg</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/json/" style="font-size: 10px;">json</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/paper/" style="font-size: 10px;">paper</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/pytorch/" style="font-size: 10px;">pytorch</a> <a href="/tags/server/" style="font-size: 10px;">server</a> <a href="/tags/trick/" style="font-size: 20px;">trick</a> <a href="/tags/vscode/" style="font-size: 10px;">vscode</a> <a href="/tags/yolo/" style="font-size: 13.33px;">yolo</a>
+      <a href="/tags/adb/" style="font-size: 13.33px;">adb</a> <a href="/tags/base64/" style="font-size: 10px;">base64</a> <a href="/tags/blender/" style="font-size: 13.33px;">blender</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/g/" style="font-size: 10px;">g++</a> <a href="/tags/git/" style="font-size: 13.33px;">git</a> <a href="/tags/godot/" style="font-size: 16.67px;">godot</a> <a href="/tags/gpg/" style="font-size: 10px;">gpg</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/json/" style="font-size: 10px;">json</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/openwrt/" style="font-size: 10px;">openwrt</a> <a href="/tags/paper/" style="font-size: 10px;">paper</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/pytorch/" style="font-size: 10px;">pytorch</a> <a href="/tags/server/" style="font-size: 10px;">server</a> <a href="/tags/trick/" style="font-size: 20px;">trick</a> <a href="/tags/yolo/" style="font-size: 13.33px;">yolo</a>
     </div>
   </div>
 
